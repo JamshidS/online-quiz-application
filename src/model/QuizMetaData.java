@@ -9,7 +9,7 @@ public class QuizMetaData {
     private String quiz;
     // String will change to Quiz (after Quiz class implemention done)
 
-    // New variables will be defined based on relationships with other classes.
+    // New variables will be defined based on relationships with other classes...
 
     public QuizMetaData() {
     }

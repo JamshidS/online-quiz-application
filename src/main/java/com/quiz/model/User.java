@@ -22,6 +22,18 @@ public class User {
 
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "fullName='" + fullName + '\'' +
+                ", userName='" + userName + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", uuid='" + uuid + '\'' +
+                ", userQuizs=" + userQuizs +
+                '}';
+    }
+
     public String getFullName() {
         return fullName;
     }

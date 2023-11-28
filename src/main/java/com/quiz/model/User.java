@@ -3,6 +3,7 @@ package com.quiz.model;
 import java.util.List;
 
 public class User {
+    private Long id;
     private String fullName;
     private String userName;
     private String email;
@@ -10,7 +11,8 @@ public class User {
     private String uuid;
     private List<String> userQuizs; //should be List<UserQuiz>
 
-    public User(String fullName, String userName, String email, String password, String uuid, List<String> userQuizs) {
+    public User(Long id,String fullName, String userName, String email, String password, String uuid, List<String> userQuizs) {
+        this.id=id;
         this.fullName = fullName;
         this.userName = userName;
         this.email = email;
@@ -25,6 +27,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
+                "id='" + id + '\'' +
                 "fullName='" + fullName + '\'' +
                 ", userName='" + userName + '\'' +
                 ", email='" + email + '\'' +
@@ -32,6 +35,14 @@ public class User {
                 ", uuid='" + uuid + '\'' +
                 ", userQuizs=" + userQuizs +
                 '}';
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getFullName() {

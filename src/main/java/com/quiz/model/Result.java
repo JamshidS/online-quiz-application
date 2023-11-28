@@ -1,6 +1,7 @@
 package com.quiz.model;
 
 public class Result {
+    private Long id;
     private String userUuid;
     private String quizUuid;
     private double point;
@@ -11,6 +12,14 @@ public class Result {
         this.quizUuid = quizUuid;
         this.point = point;
         this.quiz = quiz;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getUserUuid() {

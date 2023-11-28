@@ -9,32 +9,43 @@ public class User {
     private String email;
     private String password;
     private String uuid;
-    private List<String> userQuizs; //should be List<UserQuiz>
+    private List<UserQuiz> quizs;
 
-    public User(Long id,String fullName, String userName, String email, String password, String uuid, List<String> userQuizs) {
-        this.id=id;
+
+    public User(){
+
+    }
+
+
+    public User(Long id, String fullName, String userName, String email, String password, String uuid, List<UserQuiz> quizs) {
+        this.id = id;
         this.fullName = fullName;
         this.userName = userName;
         this.email = email;
         this.password = password;
         this.uuid = uuid;
-        this.userQuizs = userQuizs;
-    }
-    public User(){
-
+        this.quizs = quizs;
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "id='" + id + '\'' +
-                "fullName='" + fullName + '\'' +
+                "id=" + id +
+                ", fullName='" + fullName + '\'' +
                 ", userName='" + userName + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", uuid='" + uuid + '\'' +
-                ", userQuizs=" + userQuizs +
+                ", quizs=" + quizs +
                 '}';
+    }
+
+    public List<UserQuiz> getQuizs() {
+        return quizs;
+    }
+
+    public void setQuizs(List<UserQuiz> quizs) {
+        this.quizs = quizs;
     }
 
     public Long getId() {
@@ -85,11 +96,4 @@ public class User {
         this.uuid = uuid;
     }
 
-    public List<String> getUserQuizs() {
-        return userQuizs;
-    }
-
-    public void setUserQuizs(List<String> userQuizs) {
-        this.userQuizs = userQuizs;
-    }
 }

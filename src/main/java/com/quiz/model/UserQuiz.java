@@ -1,10 +1,9 @@
 package com.quiz.model;
 
 import java.time.LocalDate;
-import java.util.Objects;
-import java.util.PrimitiveIterator;
 
-public class UserQuizClass {
+public class UserQuiz {
+    private Long id;
     private String uuid;
     private String name;
     private String description;
@@ -14,8 +13,16 @@ public class UserQuizClass {
     private String difficulty;
     private Boolean status;
     private LocalDate createdAt;
-    private Object user; // Object was temporarily kept instead of User
+    private User user;
     private Object quiz; // Object was temporarily kept instead of Quiz
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getUuid() {
         return uuid;
@@ -89,11 +96,11 @@ public class UserQuizClass {
         this.createdAt = createdAt;
     }
 
-    public Object getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(Object user) {
+    public void setUser(User user) {
         this.user = user;
     }
 

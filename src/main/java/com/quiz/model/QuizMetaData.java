@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class QuizMetaData {
+    private Long id;
     private List<String> options = new ArrayList<>();
     private boolean correct;
     private String quiz;
@@ -18,6 +19,14 @@ public class QuizMetaData {
         this.options = options;
         this.correct = correct;
         this.quiz = quiz;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public List<String> getOptions() {

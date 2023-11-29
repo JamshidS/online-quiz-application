@@ -20,7 +20,7 @@ public class CreateTable {
         }
     }
 
-    public static void createQuizMetaData(){
+    public static void createQuizMetaDataTable(){
         try(Statement statement = DBConnectorConfig.getConnection().createStatement()) {
             String query = "CREATE TABLE IF NOT EXISTS quiz_meta_data(" +
                     "id SERIAL PRIMARY KEY," +

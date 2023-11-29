@@ -5,18 +5,17 @@ import java.util.List;
 
 public class QuizMetaData {
     private Long id;
-    private List<String> options = new ArrayList<>();
+    private String option;
     private boolean correct;
     private String quiz;
     // String will change to Quiz (after Quiz class implemention done)
 
-    // New variables will be defined based on relationships with other classes...
-
     public QuizMetaData() {
     }
 
-    public QuizMetaData(List<String> options, boolean correct, String quiz) {
-        this.options = options;
+    public QuizMetaData(Long id, String option, boolean correct, String quiz) {
+        this.id = id;
+        this.option = option;
         this.correct = correct;
         this.quiz = quiz;
     }
@@ -29,12 +28,12 @@ public class QuizMetaData {
         this.id = id;
     }
 
-    public List<String> getOptions() {
-        return options;
+    public String getOption() {
+        return option;
     }
 
-    public void setOptions(List<String> options) {
-        this.options = options;
+    public void setOption(String option) {
+        this.option = option;
     }
 
     public boolean isCorrect() {

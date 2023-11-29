@@ -19,4 +19,18 @@ public class CreateTable {
             e.printStackTrace();
         }
     }
+
+    public static void createQuizMetaData(){
+        try(Statement statement = DBConnectorConfig.getConnection().createStatement()) {
+            String query = "CREATE TABLE IF NOT EXISTS quiz_meta_data(" +
+                    "id SERIAL PRIMARY KEY," +
+                    "option VARCHAR(255)," +
+                    "correct BOOLEAN DEFAULT false)";
+                    // Quiz class is not present yet.
+            statement.executeUpdate(query);
+            System.out.println("Quiz Meta Data table created successfully");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -1,3 +1,5 @@
+
+
 package com.quiz.repository;
 
 import com.quiz.config.DBConnectorConfig;
@@ -107,3 +109,4 @@ public class UserQuery {
         );
     }
 }
+

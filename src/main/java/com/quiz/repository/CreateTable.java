@@ -19,4 +19,27 @@ public class CreateTable {
             e.printStackTrace();
         }
     }
-}
+    public static void createQuizQuestion(){
+        try(Statement statement = DBConnectorConfig.getConnection().createStatement()) { // try with recourse
+            String query =
+                    "CREATE TABLE IF NOT EXISTS quizQuestion(" +
+                    "createdDateTime Timestamp NOT NULL, " +
+                    "id SERIAL PRIMARY KEY ,  " +
+                    "quizId INT, " + // FOREIGN KEY IT WILL BE EDITED AFTER CREATING THE QUIZ CLASS
+                    "uuid VARCHAR(255) NOT NULL, " +
+                    "question TEXT NOT NULL ) ";
+            statement.executeUpdate(query);
+            System.out.println("createQuizQuestion table created successfully");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+
+
+    }
+
+
+    }
+
+

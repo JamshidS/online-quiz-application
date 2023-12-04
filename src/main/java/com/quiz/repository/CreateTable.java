@@ -21,7 +21,7 @@ public class CreateTable {
         }
     }
 
-    public static void createUserQuiz(){
+    public static String  createUserQuiz(){
         try (Statement statement = DBConnectorConfig.getConnection().createStatement()){
             String query = "CREATE TABLE IF NOT EXISTS user_quiz(" +
                     "id SERIAL PRIMARY KEY," +
@@ -37,9 +37,10 @@ public class CreateTable {
                     "user_id BIGINT,"+
                     "quiz_id BIGINT)";
             statement.executeUpdate(query);
-            System.out.println("User Quiz table created successfully");
+            return "User Quiz table created successfully";
         } catch (SQLException e) {
             e.printStackTrace();
+            return "Error creating User Quiz table:" + e.getMessage();
         }
     }
 }

@@ -14,7 +14,6 @@ public class Quiz {
     private boolean status;
     private LocalDate createdAt;
     private List<QuizQuestion> quizQuestions;
-    private List<QuizMetaData> quizMetaDatas;
     private Result result;
 
     // Constructors
@@ -37,7 +36,6 @@ public class Quiz {
         this.status = status;
         this.createdAt = createdAt;
         this.quizQuestions = quizQuestions;
-        this.quizMetaDatas = quizMetaDatas;
         this.result = result;
     }
 
@@ -121,14 +119,6 @@ public class Quiz {
 
     public void setQuizQuestions(List<QuizQuestion> quizQuestions) {
         this.quizQuestions = quizQuestions;
-    }
-
-    public List<QuizMetaData> getQuizMetaDatas() {
-        return quizMetaDatas;
-    }
-
-    public void setQuizMetaDatas(List<QuizMetaData> quizMetaDatas) {
-        this.quizMetaDatas = quizMetaDatas;
     }
 
     public Result getResult() {

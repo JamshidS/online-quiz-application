@@ -11,8 +11,10 @@ public class CreateTable {
     // this is an example and don't use this method.....
     public static void createPersonTable(){
         try(Statement statement = DBConnectorConfig.getConnection().createStatement()) { // try with recourse
-            String query = "CREATE TABLE IF NOT EXISTS person(" +
-                    "id SERIAL PRIMARY KEY," +
+            String query = "DROP SEQUENCE IF EXISTS person_id_seq;\n" +
+                    "CREATE SEQUENCE person_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 2147483647 START 1 CACHE 1;"+// dizi
+                    "CREATE TABLE IF NOT EXISTS person(" +
+                    "id INTEGER DEFAULT nextval('person_id_seq') PRIMARY KEY," +
                     "name VARCHAR(255))"; // SQL
             statement.executeUpdate(query);
             System.out.println("Person table created successfully");
@@ -23,8 +25,10 @@ public class CreateTable {
 
     public static String  createUserQuiz(){
         try (Statement statement = DBConnectorConfig.getConnection().createStatement()){
-            String query = "CREATE TABLE IF NOT EXISTS user_quiz(" +
-                    "id SERIAL PRIMARY KEY," +
+            String query = "DROP SEQUENCE IF EXISTS person_id_seq;\n" +
+                    "CREATE SEQUENCE person_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 2147483647 START 1 CACHE 1;"+
+                    "CREATE TABLE IF NOT EXISTS person("+
+                    "id INTEGER  DEFAULT nextval('person_id_seq') PRIMARY KEY," +
                     "name VARCHAR(255),"+
                     "uuid VARCHAR(255),"+
                     "description VARCHAR(255),"+

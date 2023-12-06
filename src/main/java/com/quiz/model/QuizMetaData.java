@@ -1,30 +1,26 @@
 package com.quiz.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class QuizMetaData {
-    private Long id;
+    private int id;
     private String option;
     private boolean correct;
-    private String quiz;
-    // String will change to Quiz (after Quiz class implemention done)
+    private QuizQuestion quizQuestion;
 
     public QuizMetaData() {
     }
 
-    public QuizMetaData(Long id, String option, boolean correct, String quiz) {
+    public QuizMetaData(int id, String option, boolean correct, QuizQuestion quizQuestion) {
         this.id = id;
         this.option = option;
         this.correct = correct;
-        this.quiz = quiz;
+        this.quizQuestion = quizQuestion;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -44,11 +40,11 @@ public class QuizMetaData {
         this.correct = correct;
     }
 
-    public String getQuiz() {
-        return quiz;
+    public QuizQuestion getQuizQuestion() {
+        return quizQuestion;
     }
 
-    public void setQuiz(String quiz) {
-        this.quiz = quiz;
+    public void setQuizQuestion(QuizQuestion quizQuestion) {
+        this.quizQuestion = quizQuestion;
     }
 }

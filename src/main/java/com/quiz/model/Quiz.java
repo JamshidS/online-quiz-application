@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class Quiz {
+
+    private Long id;
     private String uuid;
     private String name;
     private String description;
@@ -23,9 +25,10 @@ public class Quiz {
     }
 
     // Constructor with parameters
-    public Quiz(String uuid, String name, String description, String instructions, int duration,
+    public Quiz(Long id, String uuid, String name, String description, String instructions, int duration,
                 int attempts, String difficulty, boolean status, LocalDate createdAt,
                 List<QuizQuestion> quizQuestions, List<QuizMetaData> quizMetaDatas, Result result) {
+        this.id = id;
         this.uuid = uuid;
         this.name = name;
         this.description = description;
@@ -40,6 +43,15 @@ public class Quiz {
     }
 
     // Getter and setter methods
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getUuid() {
         return uuid;

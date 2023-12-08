@@ -29,8 +29,9 @@ public class CreateTable {
                     "CREATE TABLE IF NOT EXISTS quiz_meta_data(" +
                     "id INTEGER DEFAULT nextval('quiz_meta_data_id_seq') PRIMARY KEY," +
                     "option VARCHAR(255),"+
-                    "correct BOOLEAN DEFAULT false)";
-//                  "CONSTRAINT fk_quiz_question_id FOREIGN KEY(quiz_question_id) NOT DEFERRABLE)";
+                    "correct BOOLEAN DEFAULT false,"+
+                    "quizQuestion_id integer NOT NULL,"+
+                    "CONSTRAINT fk_quizQuestion_id FOREIGN KEY(id) REFERENCES quizQuestion(id) NOT DEFERRABLE)";
             statement.executeUpdate(query);
             System.out.println("QuizMetaData table created successfully");
         } catch (SQLException e) {

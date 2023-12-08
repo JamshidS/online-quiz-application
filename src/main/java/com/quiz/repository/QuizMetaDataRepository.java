@@ -6,7 +6,6 @@ import com.quiz.model.QuizMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,5 +71,20 @@ public class QuizMetaDataRepository {
             throw  new RuntimeException(e);
         }
         return getQuizMetaDataByID(id);
+    }
+
+    public void delete(int id){
+        String query = "DELETE FROM quiz_meta_data WHERE id = ?";
+        try(PreparedStatement statement = DBConnectorConfig.getConnection().prepareStatement(query)) {
+            statement.setInt(1,id);
+            int rowsAffected = statement.executeUpdate();
+            if (rowsAffected>0){
+                System.out.println("QuizMetaData with ID " + id + " deleted successfully!");
+            }else {
+                System.out.println("QuizMetaData with ID " + id + " not found.");
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 }

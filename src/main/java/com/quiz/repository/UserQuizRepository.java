@@ -63,8 +63,8 @@ public class UserQuizRepository {
                     userQuiz.setDifficulty(resultSet.getString("difficulty"));
                     userQuiz.setStatus(resultSet.getBoolean("status"));
                     userQuiz.setCreatedAt(resultSet.getDate("created_at").toLocalDate());
-                    //userQuiz.setUser();  I want to use getUserById()
-                    //userQuiz.setQuiz();  I want to use getQuizById()
+                    //userQuiz.setUser();
+                    //userQuiz.setQuiz();
 
                     userQuizList.add(userQuiz);
                 }
@@ -100,7 +100,7 @@ public class UserQuizRepository {
     }
 
 
-    public UserQuiz update(UserQuiz userQuiz, long id){
+    public UserQuiz update(UserQuiz userQuiz, long id) throws RuntimeException {
         String query = "UPDATE user_quiz SET name=?, uuid=?, description=?, instructions=?, duration=?, attempts=?, difficulty=?, status=?, created_at=?, user_id=?, quiz_id=? WHERE id=?";
 
         try(PreparedStatement statement = DBConnectorConfig.getConnection().prepareStatement(query)){
@@ -121,6 +121,16 @@ public class UserQuizRepository {
             throw new RuntimeException(e);
         }
         return getUserQuizById(id);
+    }
+
+    public void delete(long id){
+        String query = "DELETE FROM user_quiz WHERE id=?";
+        try(PreparedStatement statement = DBConnectorConfig.getConnection().prepareStatement(query)){
+            statement.setLong(1,id);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

@@ -38,8 +38,10 @@ public class CreateTable {
                     "difficulty VARCHAR(255),"+
                     "status BOOLEAN,"+
                     "created_at Date,"+
-                    "user_id BIGINT,"+
-                    "quiz_id BIGINT)";
+                    "user_id BIGINT NOT NULL,"+
+                    "quiz_id BIGINT NOT NULL,"+
+                    "CONSTRAINT user_id FOREIGN KEY (id) REFERENCES person(id) NOT DEFERRABLE,"+
+                    "CONSTRAİNT quiz_id FOREIGN KEY (id) REFERENCES quiz(id) NOT DEFERRABLE)";
             statement.executeUpdate(query);
             return "User Quiz table created successfully";
         } catch (SQLException e) {

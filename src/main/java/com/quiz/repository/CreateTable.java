@@ -49,4 +49,51 @@ public class CreateTable {
             return "Error creating User Quiz table:" + e.getMessage();
         }
     }
+    public static void createQuizQuestion(){
+        try(Statement statement = DBConnectorConfig.getConnection().createStatement()) { // try with recourse
+            String query =
+                    "CREATE TABLE IF NOT EXISTS quizQuestion(" +
+                    "createdDateTime Timestamp NOT NULL, " +
+                    "id SERIAL PRIMARY KEY ,  " +
+                    "quizId INT, " + // FOREIGN KEY IT WILL BE EDITED AFTER CREATING THE QUIZ CLASS
+                    "uuid VARCHAR(255) NOT NULL, " +
+                    "question TEXT NOT NULL ) ";
+            statement.executeUpdate(query);
+            System.out.println("createQuizQuestion table created successfully");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+
+
+    }
+
+
+    }
+
+    public static void createQuizTable(){
+        try(Statement statement = DBConnectorConfig.getConnection().createStatement()){
+            String query = "DROP SEQUENCE IF EXISTS quiz_id CASCADE;\n" +
+                    "CREATE SEQUENCE quiz_id INCREMENT 1 MINVALUE 1 MAXVALUE 2147483647 START 1 CACHE 1;"+
+                    "DROP TABLE IF EXISTS quiz;"+
+                    "CREATE TABLE IF NOT EXISTS quiz(" +
+                    "quiz_id INTEGER DEFAULT nextval('quiz_id') PRIMARY KEY," +
+                    "quiz_uuid  UUID DEFAULT gen_random_uuid(), "+
+                    "quiz_name VARCHAR(255),"+
+                    "quiz_description VARCHAR(255) ," +
+                    "quiz_instructions VARCHAR(255),"+
+                    "quiz_duration INTEGER,"+
+                    "quiz_attempt INTEGER,"+
+                    "quiz_difficulty VARCHAR(255),"+
+                    "quiz_status BOOLEAN," +
+                    "quiz_created_at DATE)";
+
+
+            statement.executeUpdate(query);
+            System.out.println("Quiz table created successfully");
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
 }

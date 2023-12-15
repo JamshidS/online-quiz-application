@@ -1,40 +1,35 @@
 package com.quiz.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class QuizMetaData {
-    private Long id;
-    private List<String> options = new ArrayList<>();
+    private int id;
+    private String option;
     private boolean correct;
-    private String quiz;
-    // String will change to Quiz (after Quiz class implemention done)
-
-    // New variables will be defined based on relationships with other classes...
+    private QuizQuestion quizQuestion;
 
     public QuizMetaData() {
     }
 
-    public QuizMetaData(List<String> options, boolean correct, String quiz) {
-        this.options = options;
+    public QuizMetaData(int id, String option, boolean correct, QuizQuestion quizQuestion) {
+        this.id = id;
+        this.option = option;
         this.correct = correct;
-        this.quiz = quiz;
+        this.quizQuestion = quizQuestion;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public List<String> getOptions() {
-        return options;
+    public String getOption() {
+        return option;
     }
 
-    public void setOptions(List<String> options) {
-        this.options = options;
+    public void setOption(String option) {
+        this.option = option;
     }
 
     public boolean isCorrect() {
@@ -45,11 +40,11 @@ public class QuizMetaData {
         this.correct = correct;
     }
 
-    public String getQuiz() {
-        return quiz;
+    public QuizQuestion getQuizQuestion() {
+        return quizQuestion;
     }
 
-    public void setQuiz(String quiz) {
-        this.quiz = quiz;
+    public void setQuizQuestion(QuizQuestion quizQuestion) {
+        this.quizQuestion = quizQuestion;
     }
 }

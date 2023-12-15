@@ -1,27 +1,27 @@
 package com.quiz.model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class QuizQuestion {
 
     private Long id; //PRIMARY KEY
     private String uuid;
-    private String  quizId; // FOREIGN KEY
+    private Long  quizId; // FOREIGN KEY
     private String question;
-    private LocalDate createdAt;
+    private LocalDateTime createdDateTime;
     private List<QuizMetaData> quizMetaData;
 
     public QuizQuestion() {
-
     }
 
-    public QuizQuestion(Long id, String uuid, String quizId, String question, LocalDate createdAt, List<QuizMetaData> quizMetaData) {
+    public QuizQuestion(Long id, String uuid, Long quizId, String question, LocalDateTime createdDateTime, List<QuizMetaData> quizMetaData) {
         this.id = id;
         this.uuid = uuid;
         this.quizId = quizId;
         this.question = question;
-        this.createdAt = createdAt;
+        this.createdDateTime = createdDateTime;
         this.quizMetaData = quizMetaData;
     }
 
@@ -41,11 +41,11 @@ public class QuizQuestion {
         this.uuid = uuid;
     }
 
-    public String getQuizId() {
+    public Long getQuizId() {
         return quizId;
     }
 
-    public void setQuizId(String quizId) {
+    public void setQuizId(Long quizId) {
         this.quizId = quizId;
     }
 
@@ -57,12 +57,12 @@ public class QuizQuestion {
         this.question = question;
     }
 
-    public LocalDate getCreatedAt() {
-        return createdAt;
+    public LocalDateTime getCreatedDateTime() {
+        return createdDateTime;
     }
 
-    public void setCreatedAt(LocalDate createdAt) {
-        this.createdAt = createdAt;
+    public void setCreatedDateTime(LocalDateTime createdDateTime) {
+        this.createdDateTime = createdDateTime;
     }
 
     public List<QuizMetaData> getQuizMetaData() {

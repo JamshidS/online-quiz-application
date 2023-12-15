@@ -22,6 +22,24 @@ public class CreateTable {
         }
     }
 
+
+    public static void createQuizMetaDataTable(){
+        try(Statement statement = DBConnectorConfig.getConnection().createStatement()) {
+            String query = "DROP SEQUENCE IF EXISTS quiz_meta_data_id_seq;\n" +
+                    "CREATE SEQUENCE quiz_meta_data_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 2147483647 START 1 CACHE 1;"+
+                    "CREATE TABLE IF NOT EXISTS quiz_meta_data(" +
+                    "id INTEGER DEFAULT nextval('quiz_meta_data_id_seq') PRIMARY KEY," +
+                    "option VARCHAR(255),"+
+                    "correct BOOLEAN DEFAULT false,"+
+                    "quizQuestion_id integer NOT NULL,"+
+                    "CONSTRAINT fk_quizQuestion_id FOREIGN KEY(id) REFERENCES quizQuestion(id) NOT DEFERRABLE)";
+            statement.executeUpdate(query);
+            System.out.println("QuizMetaData table created successfully");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void createQuizQuestion(){
         try(Statement statement = DBConnectorConfig.getConnection().createStatement()) { // try with recourse
             String query =
@@ -70,3 +88,4 @@ public class CreateTable {
         }
     }
 }
+

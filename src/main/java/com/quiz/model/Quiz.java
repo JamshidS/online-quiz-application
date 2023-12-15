@@ -27,7 +27,7 @@ public class Quiz {
     // Constructor with parameters
     public Quiz(Long id, String uuid, String name, String description, String instructions, int duration,
                 int attempts, String difficulty, boolean status, LocalDate createdAt,
-                List<QuizQuestion> quizQuestions, List<QuizMetaData> quizMetaDatas, Result result) {
+                List<QuizQuestion> quizQuestions, Result result) {
         this.id = id;
         this.uuid = uuid;
         this.name = name;
@@ -109,7 +109,7 @@ public class Quiz {
         this.difficulty = difficulty;
     }
 
-    public boolean isStatus() {
+    public boolean getStatus() {
         return status;
     }
 

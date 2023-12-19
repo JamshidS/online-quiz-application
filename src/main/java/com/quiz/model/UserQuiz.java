@@ -14,7 +14,7 @@ public class UserQuiz {
     private Boolean status;
     private LocalDate createdAt;
     private User user;
-    private Object quiz; // Object was temporarily kept instead of Quiz
+    private Quiz quiz;
 
     public Long getId() {
         return id;
@@ -104,11 +104,11 @@ public class UserQuiz {
         this.user = user;
     }
 
-    public Object getQuiz() {
+    public Quiz getQuiz() {
         return quiz;
     }
 
-    public void setQuiz(Object quiz) {
+    public void setQuiz(Quiz quiz) {
         this.quiz = quiz;
     }
 }

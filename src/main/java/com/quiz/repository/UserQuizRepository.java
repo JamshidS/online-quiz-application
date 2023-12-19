@@ -3,6 +3,7 @@ package com.quiz.repository;
 import com.quiz.config.DBConnectorConfig;
 import com.quiz.model.UserQuiz;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,8 +31,8 @@ public class UserQuizRepository {
                     userQuiz.setDifficulty(resultSet.getString("difficulty"));
                     userQuiz.setStatus(resultSet.getBoolean("status"));
                     userQuiz.setCreatedAt(resultSet.getDate("created_at").toLocalDate());
-                    //userQuiz.setUser(DBConnectorConfig.getUserById(resultSet.getLong("user_id")));
-                    //userQuiz.setQuiz(DBConnectorConfig.getQuizById(resultSet.getLong("quiz_id")));
+                    userQuiz.setUser(DBConnectorConfig.getUserById(resultSet.getLong("user_id")));
+                    userQuiz.setQuiz(DBConnectorConfig.getQuizById(resultSet.getLong("quiz_id")));
 
 
 
@@ -63,8 +64,8 @@ public class UserQuizRepository {
                     userQuiz.setDifficulty(resultSet.getString("difficulty"));
                     userQuiz.setStatus(resultSet.getBoolean("status"));
                     userQuiz.setCreatedAt(resultSet.getDate("created_at").toLocalDate());
-                    //userQuiz.setUser();
-                    //userQuiz.setQuiz();
+                    statement.setLong(10, userQuiz.getUser().getId());
+                    //statement.setLong(11, userQuiz.getQuiz().getId());
 
                     userQuizList.add(userQuiz);
                 }
@@ -73,7 +74,7 @@ public class UserQuizRepository {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return userQuizList;
     }
 
 
@@ -88,9 +89,9 @@ public class UserQuizRepository {
             statement.setInt(6, userQuiz.getAttempts());
             statement.setString(7, userQuiz.getDifficulty());
             statement.setBoolean(8, userQuiz.getStatus());
-            //statement.setDate(9, userQuiz.getCreatedAt());
+            statement.setDate(9, Date.valueOf(userQuiz.getCreatedAt()));
             statement.setLong(10, userQuiz.getUser().getId());
-            //statement.setLong(11, userQuiz.getQuiz().getId());
+            statement.setLong(11, userQuiz.getQuiz().getId());
 
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -112,9 +113,9 @@ public class UserQuizRepository {
             statement.setInt(6, userQuiz.getAttempts());
             statement.setString(7, userQuiz.getDifficulty());
             statement.setBoolean(8, userQuiz.getStatus());
-            //statement.setDate(9, userQuiz.getCreatedAt());
+            statement.setDate(9, Date.valueOf(userQuiz.getCreatedAt()));
             statement.setLong(10, userQuiz.getUser().getId());
-            //statement.setLong(11, userQuiz.getQuiz.getId());
+            statement.setLong(11, userQuiz.getQuiz().getId());
 
             statement.executeUpdate();
         } catch (SQLException e) {

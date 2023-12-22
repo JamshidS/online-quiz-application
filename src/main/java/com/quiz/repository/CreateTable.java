@@ -89,8 +89,6 @@ public class CreateTable {
     }
 
 
-    }
-
     public static void createQuizTable(){
         try(Statement statement = DBConnectorConfig.getConnection().createStatement()){
             String query = "DROP SEQUENCE IF EXISTS quiz_id CASCADE;\n" +
@@ -116,4 +114,6 @@ public class CreateTable {
         }
     }
 }
+
+
 

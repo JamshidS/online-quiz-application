@@ -89,7 +89,6 @@ public class CreateTable {
     }
 
 
-    }
 
     public static void createQuizTable(){
         try(Statement statement = DBConnectorConfig.getConnection().createStatement()){

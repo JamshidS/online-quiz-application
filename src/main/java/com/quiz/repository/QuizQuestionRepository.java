@@ -89,14 +89,14 @@ public class QuizQuestionRepository {
         }
 
     }
-    public QuizQuestion getQuizQuestionByID(int id){
+    public QuizQuestion getQuizQuestionByID(Long id){
 
         QuizQuestion quizQuestion = null;
 
         String query = "SELECT * FROM quizquestion WHERE id=?";
         try(PreparedStatement statement = DBConnectorConfig.getConnection()
                 .prepareStatement(query)) {
-            statement.setInt(1,id);
+            statement.setLong(1,id);
             try(ResultSet resultSet = statement.executeQuery()){
                 if (resultSet.next()) {
                     Long id1 = resultSet.getLong("id");

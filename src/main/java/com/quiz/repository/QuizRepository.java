@@ -119,5 +119,31 @@ public class QuizRepository {
         return quizzes;
     }
 
+    public Quiz getQuizById(long id) {
+        Quiz quiz = new Quiz();
+        String query = "SELECT * FROM quiz WHERE quiz_id=?";
+        try (PreparedStatement statement = DBConnectorConfig.getConnection().prepareStatement(query)) {
+            statement.setLong(1, id);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    quiz.setId(resultSet.getLong("quiz_id"));
+                    quiz.setUuid(resultSet.getString("quiz_uuid"));
+                    quiz.setName(resultSet.getString("quiz_name"));
+                    quiz.setDescription(resultSet.getString("quiz_description"));
+                    quiz.setInstructions(resultSet.getString("quiz_instructions"));
+                    quiz.setDuration(resultSet.getInt("quiz_duration"));
+                    quiz.setAttempts(resultSet.getInt("quiz_attempts"));
+                    quiz.setDifficulty(resultSet.getString("quiz_difficulty"));
+                    quiz.setStatus(resultSet.getBoolean("quiz_status"));
+                    quiz.setCreatedAt(resultSet.getDate("quiz_created_at").toLocalDate());
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+        return quiz;
+    }
+
 
 }

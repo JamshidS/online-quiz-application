@@ -19,24 +19,30 @@ public class UserQuizServiceImpl implements UserQuizService {
 
     @Override
     public String saveUserQuiz(UserQuiz userQuiz) {
-        UserQuiz userQuizforDatabase = new UserQuiz();
-        userQuizforDatabase.setName(userQuiz.getName());
-        userQuizforDatabase.setId(userQuiz.getId());
-        userQuizforDatabase.setUuid(userQuiz.getUuid());
-        userQuizforDatabase.setDescription(userQuiz.getDescription());
-        userQuizforDatabase.setInstructions(userQuiz.getInstructions());
-        userQuizforDatabase.setDuration(userQuiz.getDuration());
-        userQuizforDatabase.setAttempts(userQuiz.getAttempts());
-        userQuizforDatabase.setDifficulty(userQuiz.getDifficulty());
-        userQuizforDatabase.setCreatedAt(userQuiz.getCreatedAt());
-        userQuizforDatabase.setQuiz(userQuiz.getQuiz());
-        userQuizforDatabase.setUser(userQuiz.getUser());
+        if (userQuiz == null) {
+            throw new RuntimeException("User Quiz Not Found");
+        }else {
+            UserQuiz userQuizforDatabase = new UserQuiz();
+            userQuizforDatabase.setName(userQuiz.getName());
+            userQuizforDatabase.setId(userQuiz.getId());
+            userQuizforDatabase.setUuid(userQuiz.getUuid());
+            userQuizforDatabase.setDescription(userQuiz.getDescription());
+            userQuizforDatabase.setInstructions(userQuiz.getInstructions());
+            userQuizforDatabase.setDuration(userQuiz.getDuration());
+            userQuizforDatabase.setAttempts(userQuiz.getAttempts());
+            userQuizforDatabase.setDifficulty(userQuiz.getDifficulty());
+            userQuizforDatabase.setCreatedAt(userQuiz.getCreatedAt());
+            userQuizforDatabase.setQuiz(userQuiz.getQuiz());
+            userQuizforDatabase.setUser(userQuiz.getUser());
 
 
-        userQuizRepository.save(userQuizforDatabase);
+            userQuizRepository.save(userQuizforDatabase);
 
 
-        return "UserQuiz Saved";
+            return "User Quiz has been created successfully";
+        }
+
+
     }
 
     @Override
@@ -45,7 +51,7 @@ public class UserQuizServiceImpl implements UserQuizService {
             throw new RuntimeException("UserQuiz Not Found");
         }else {
             userQuizRepository.delete(userQuizId);
-            return "UserQuiz Deleted";
+            return "User Quiz has been Deleted successfully";
         }
 
     }
@@ -69,9 +75,9 @@ public class UserQuizServiceImpl implements UserQuizService {
             userQuizforUpdate.setUser(userQuiz.getUser());
 
             userQuizRepository.save(userQuizforUpdate);
-            return "UserQuiz Updated";
+            return "User Quiz has been Updated Successfully";
         }
-        throw new RuntimeException("UserQuiz Not Found");
+        throw new RuntimeException("User Quiz Not Found");
     }
 
     @Override
@@ -80,7 +86,7 @@ public class UserQuizServiceImpl implements UserQuizService {
         if (userQuiz != null) {
             return userQuiz;
         }
-        throw new RuntimeException("UserQuiz Not Found");
+        throw new RuntimeException("User Quiz Not Found");
     }
 
     @Override

@@ -120,6 +120,7 @@ public class QuizRepository {
         return quizzes;
     }
 
+
     public Quiz getQuizById(Long quizId) {
         Quiz quiz = null;
 
@@ -157,11 +158,11 @@ public class QuizRepository {
                     System.out.println("No quiz matching the specified ID found. ID =" + quizId);
                 }
             }
-        } catch (SQLException e) {
+        }
+         catch (SQLException e) {
             e.printStackTrace();
         }
         return quiz;
-
     }
 
 

@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserQuizRepository {
+    UserRepository userRepository = new UserRepository();
+    QuizRepository quizRepository = new QuizRepository();
 
     public UserQuiz getUserQuizById(long id){
         UserQuiz userQuiz = new UserQuiz();
@@ -31,8 +33,8 @@ public class UserQuizRepository {
                     userQuiz.setDifficulty(resultSet.getString("difficulty"));
                     userQuiz.setStatus(resultSet.getBoolean("status"));
                     userQuiz.setCreatedAt(resultSet.getDate("created_at").toLocalDate());
-                    userQuiz.setUser(DBConnectorConfig.getUserById(resultSet.getLong("user_id")));
-                    userQuiz.setQuiz(DBConnectorConfig.getQuizById(resultSet.getLong("quiz_id")));
+                    userQuiz.setUser(userRepository.getUserById(resultSet.getLong("user_id")));
+                    userQuiz.setQuiz(quizRepository.getQuizById(resultSet.getLong("quiz_id")));
 
 
 
@@ -65,7 +67,7 @@ public class UserQuizRepository {
                     userQuiz.setStatus(resultSet.getBoolean("status"));
                     userQuiz.setCreatedAt(resultSet.getDate("created_at").toLocalDate());
                     statement.setLong(10, userQuiz.getUser().getId());
-                    //statement.setLong(11, userQuiz.getQuiz().getId());
+                    statement.setLong(11, userQuiz.getQuiz().getId());
 
                     userQuizList.add(userQuiz);
                 }

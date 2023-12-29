@@ -26,10 +26,10 @@ public class CreateTable {
 
     public static String  createUserQuiz(){
         try (Statement statement = DBConnectorConfig.getConnection().createStatement()){
-            String query = "DROP SEQUENCE IF EXISTS person_id_seq;\n" +
-                    "CREATE SEQUENCE person_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 2147483647 START 1 CACHE 1;"+
-                    "CREATE TABLE IF NOT EXISTS person("+
-                    "id INTEGER  DEFAULT nextval('person_id_seq') PRIMARY KEY," +
+            String query = "DROP SEQUENCE IF EXISTS user_quiz_id_seq;\n" +
+                    "CREATE SEQUENCE user_quiz_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 2147483647 START 1 CACHE 1;"+
+                    "CREATE TABLE IF NOT EXISTS user_quiz("+
+                    "id INTEGER  DEFAULT nextval('user_quiz_id_seq') PRIMARY KEY," +
                     "name VARCHAR(255),"+
                     "uuid VARCHAR(255),"+
                     "description VARCHAR(255),"+

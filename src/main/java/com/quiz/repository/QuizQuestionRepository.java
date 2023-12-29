@@ -13,18 +13,18 @@ import java.util.List;
 
 public class QuizQuestionRepository {
 
-    public  QuizQuestion addQuizQuestion(QuizQuestion quizQuestion){
+    public QuizQuestion addQuizQuestion(QuizQuestion quizQuestion) {
 
         String query = "INSERT INTO quizquestion (uuid, quizId, question, createdDateTime) VALUES (?, ?, ?, ?)";
-        try (PreparedStatement statement = DBConnectorConfig.getConnection().prepareStatement(query)){
+        try (PreparedStatement statement = DBConnectorConfig.getConnection().prepareStatement(query)) {
 
-            statement.setString(1,quizQuestion.getUuid());
-            statement.setLong(2,quizQuestion.getQuizId());
-            statement.setString(3,quizQuestion.getQuestion());
+            statement.setString(1, quizQuestion.getUuid());
+            statement.setLong(2, quizQuestion.getQuizId());
+            statement.setString(3, quizQuestion.getQuestion());
             statement.setTimestamp(4, Timestamp.valueOf(quizQuestion.getCreatedDateTime()));
             statement.executeUpdate();
             System.out.println("Question added successfully.");
-        } catch (SQLException e){
+        } catch (SQLException e) {
 
             e.printStackTrace();
         }
@@ -32,28 +32,28 @@ public class QuizQuestionRepository {
         return quizQuestion;
     }
 
-    public QuizQuestion  updateQuizQuestion(Long id, String newQuestion) {
+    public QuizQuestion updateQuizQuestion(Long id, String newQuestion) {
 
-        QuizQuestion updatedQuestion =null;
+        QuizQuestion updatedQuestion = null;
 
         String query = "UPDATE quizquestion SET question = ? WHERE id = ? RETURNING *";
-        try(PreparedStatement statement = DBConnectorConfig.getConnection().prepareStatement(query)) {
+        try (PreparedStatement statement = DBConnectorConfig.getConnection().prepareStatement(query)) {
 
-            statement.setString(1,newQuestion);
-            statement.setLong(2,id);
+            statement.setString(1, newQuestion);
+            statement.setLong(2, id);
 
             ResultSet resultSet = statement.executeQuery();
 
-            if (resultSet.next()){
+            if (resultSet.next()) {
                 Long id1 = resultSet.getLong("id");
                 String uuid = resultSet.getString("uuid");
                 Long quizId = resultSet.getLong("quizId");
                 String questionText = resultSet.getString("question");
                 LocalDateTime createdAt = resultSet.getTimestamp("createdDateTime").toLocalDateTime();
 
-                updatedQuestion  = new QuizQuestion();
-                updatedQuestion .setId(id1);
-                updatedQuestion   .setUuid(uuid);
+                updatedQuestion = new QuizQuestion();
+                updatedQuestion.setId(id1);
+                updatedQuestion.setUuid(uuid);
                 updatedQuestion.setQuizId(quizId);
                 updatedQuestion.setQuestion(questionText);
                 updatedQuestion.setCreatedDateTime(createdAt);
@@ -61,43 +61,44 @@ public class QuizQuestionRepository {
                 System.out.println("Updated successfully id:" + id);
 
 
-            }else {
-                System.out.println("No question matching the specified ID found. ID ="+ id);
+            } else {
+                System.out.println("No question matching the specified ID found. ID =" + id);
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return updatedQuestion;
     }
 
-    public void  deleteQuizQuestion(Long id) {
+    public void deleteQuizQuestion(Long id) {
 
         String query = "DELETE FROM QuizQuestion WHERE id = ?";
-        try(PreparedStatement statement = DBConnectorConfig.getConnection().prepareStatement(query)) {
+        try (PreparedStatement statement = DBConnectorConfig.getConnection().prepareStatement(query)) {
 
-            statement.setLong(1,id);
+            statement.setLong(1, id);
 
             int a = statement.executeUpdate();
 
-            if (a>0){
+            if (a > 0) {
                 System.out.println("successfully deleted id:" + id);
-            }else {
-                System.out.println("No question matching the specified ID found. ID ="+ id);
+            } else {
+                System.out.println("No question matching the specified ID found. ID =" + id);
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
     }
-    public QuizQuestion getQuizQuestionByID(Long id){
+
+    public QuizQuestion getQuizQuestionByID(Long id) {
 
         QuizQuestion quizQuestion = null;
 
         String query = "SELECT * FROM quizquestion WHERE id=?";
-        try(PreparedStatement statement = DBConnectorConfig.getConnection()
+        try (PreparedStatement statement = DBConnectorConfig.getConnection()
                 .prepareStatement(query)) {
-            statement.setLong(1,id);
-            try(ResultSet resultSet = statement.executeQuery()){
+            statement.setLong(1, id);
+            try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     Long id1 = resultSet.getLong("id");
                     String uuid = resultSet.getString("uuid");
@@ -111,29 +112,29 @@ public class QuizQuestionRepository {
                     quizQuestion.setQuizId(quizId);
                     quizQuestion.setQuestion(questionText);
                     quizQuestion.setCreatedDateTime(createdDateTime);
-                }else{
-                    System.out.println("No question matching the specified ID found. ID ="+ id);
+                } else {
+                    System.out.println("No question matching the specified ID found. ID =" + id);
                 }
-                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return quizQuestion;
     }
 
-    public List<QuizQuestion> getAllQuizQuestion(){
+    public List<QuizQuestion> getAllQuizQuestion() {
         List<QuizQuestion> quizQuestions = new ArrayList<>();
 
         String query = "SELECT * FROM quizquestion";
-        try(PreparedStatement statement = DBConnectorConfig.getConnection()
+        try (PreparedStatement statement = DBConnectorConfig.getConnection()
                 .prepareStatement(query)) {
-            try(ResultSet resultSet = statement.executeQuery()){
-                while (resultSet.next()){
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
                     Long questionId = resultSet.getLong("id");
-                    Long quizId=resultSet.getLong("quizId");
-                    String uuid=resultSet.getString("uuid");
-                    String question=resultSet.getString("question");
-                    LocalDateTime createdDateTime=resultSet.getTimestamp("createdDateTime").toLocalDateTime();
+                    Long quizId = resultSet.getLong("quizId");
+                    String uuid = resultSet.getString("uuid");
+                    String question = resultSet.getString("question");
+                    LocalDateTime createdDateTime = resultSet.getTimestamp("createdDateTime").toLocalDateTime();
 
                     QuizQuestion quizQuestion = new QuizQuestion();
                     quizQuestion.setId(questionId);
@@ -151,6 +152,37 @@ public class QuizQuestionRepository {
         return quizQuestions;
     }
 
+    public List<QuizQuestion> getAllQuestionByQuizID(Long quizId) {
+        List<QuizQuestion> quizQuestions = new ArrayList<>();
+
+        String query = "SELECT * FROM public.QuizQuestion WHERE quizid = ?";
+
+        try (PreparedStatement statement = DBConnectorConfig.getConnection().prepareStatement(query)) {
+            statement.setLong(1, quizId);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Long questionId = resultSet.getLong("id");
+                    String uuid = resultSet.getString("uuid");
+                    String question = resultSet.getString("question");
+                    LocalDateTime createdDateTime = resultSet.getTimestamp("createdDateTime").toLocalDateTime();
+
+                    QuizQuestion quizQuestion = new QuizQuestion();
+                    quizQuestion.setId(questionId);
+                    quizQuestion.setUuid(uuid);
+                    quizQuestion.setQuizId(quizId);
+                    quizQuestion.setQuestion(question);
+                    quizQuestion.setCreatedDateTime(createdDateTime);
+
+                    quizQuestions.add(quizQuestion);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return quizQuestions;
+    }
 
 
 }

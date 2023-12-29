@@ -2,15 +2,18 @@ package com.quiz.service;
 
 import com.quiz.model.QuizQuestion;
 
+import java.util.List;
+
 public interface QuizService {
-   void addQuizQuestion(Long quizId,String question);
+   String addQuizQuestion(QuizQuestion quizQuestion);
 
-   QuizQuestion updateQuizQuestion(Long quizId,Long questionId,String newQuestion);
+   String updateQuizQuestion(Long questionId,String newQuestion);
 
-   void deleteQuizQuestion(Long quizID,Long questionId);
+   String  deleteQuizQuestion(Long questionId);
 
-   QuizQuestion getQuizQuestionByQuizId(Long listQuizId);
+   List<QuizQuestion> getAllQuizQuestion();
 
+   List<QuizQuestion> getAllQuizQuestionByQuizID(Long quizId);
 
 
 

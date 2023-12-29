@@ -122,7 +122,7 @@ public class QuizQuestionRepository {
         return quizQuestion;
     }
 
-    public List<QuizQuestion> getAllQuizQuestion() {
+    public List<QuizQuestion> getAllQuizQuestions() {
         List<QuizQuestion> quizQuestions = new ArrayList<>();
 
         String query = "SELECT * FROM quizquestion";

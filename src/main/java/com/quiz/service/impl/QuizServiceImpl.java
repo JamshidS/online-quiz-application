@@ -25,7 +25,7 @@ public class QuizServiceImpl implements QuizService {
                 for (QuizMetaData quizMetaData : quizMetaDataList){
                     if (quizMetaData.isCorrect()){
                         if (trueFound){
-                            return "Only one correct answer is allowed in question.";
+                            throw new RuntimeException("Only one correct answer is allowed in question.");
                         }
                         trueFound = true;
                     }
@@ -34,22 +34,24 @@ public class QuizServiceImpl implements QuizService {
                 }
                 return "QuizQuestion added to QuizMetaData successfully.";
             }else{
-                return "QuizQuestion with ID " + quizQuestionID + " not found.";
+                throw new RuntimeException("QuizQuestion not found with ID: " + quizQuestionID);
             }
         }catch (Exception e){
             e.printStackTrace();
             return "An error occurred while adding QuizQuestion to QuizMetaData.";
         }
     }
+
     @Override
     public QuizMetaData getQuizMetaData(int quizMetaDataID){
         QuizMetaData quizMetaData = quizMetaDataRepository.getQuizMetaDataByID(quizMetaDataID);
-        if (quizMetaData != null){
+        if (quizMetaData!=null){
             return quizMetaData;
         }else{
             throw new RuntimeException("QuizMetaData not found with ID: " + quizMetaDataID);
         }
     }
+
     @Override
     public List<QuizMetaData> getAllQuizMetaData(){
         List<QuizMetaData> allQuizMetaData = quizMetaDataRepository.getAllQuizMetaData();
@@ -60,31 +62,49 @@ public class QuizServiceImpl implements QuizService {
         }
     }
 
-    /*
-    public String saveQuizMetaData(String option, boolean correct){
-        // Is this necessary? I'm not sure. We save QuizMetaData while we adding QuizQuestion to QuizMetaData in other function.
-    }*/
-
-    /*
-    public String updateQuizMetaData(int quizQuestionID, int quizMetaDataID){
-        QuizMetaData quizMetaData = quizMetaDataRepository.getQuizMetaDataByID(quizMetaDataID);
-        if(quizMetaData!=null){
-
-        // I didn't know how to write the part of selecting which parameter to update. I will find it and add it.
-
-            quizMetaData.setOption();
-            quizMetaData.setCorrect();
-
-            quizMetaDataRepository.update(quizMetaData,quizMetaDataID);
-
-            return "QuizMetaData successfully updated!";
-        } else{
-            return "QuizMetaData not found with ID: " + quizMetaDataID;
+    @Override
+    public List<QuizMetaData> getAllQuizMetaDataWithQuizQuestionID(int quizQuestionID) {
+        QuizQuestion quizQuestion = quizQuestionRepository.getQuizQuestionByID(quizQuestionID);
+        if(quizQuestion!=null){
+            return quizQuestion.getQuizMetaData();
+        }else{
+            throw new RuntimeException("QuizQuestion not found with ID: " + quizQuestionID);
         }
-    }*/
+    }
+
+    @Override
+    public String updateQuizMetaData(int quizQuestionID, int quizMetaDataID, QuizMetaData updatedMetaData){
+        QuizMetaData quizMetaData = quizMetaDataRepository.getQuizMetaDataByID(quizMetaDataID);
+        QuizQuestion quizQuestion = quizQuestionRepository.getQuizQuestionByID(quizQuestionID);
+        if(quizMetaData!=null){
+            if(!quizMetaData.isCorrect() && updatedMetaData.isCorrect()){
+                for(QuizMetaData metaData : quizQuestion.getQuizMetaData()){
+                    if(metaData.isCorrect()){
+                        metaData.setCorrect(false);
+                        quizMetaDataRepository.update(metaData,metaData.getId());
+                    }
+                }
+                quizMetaDataRepository.update(updatedMetaData,quizMetaDataID);
+                return "QuizMetaData successfully updated!";
+            }else if(quizMetaData.isCorrect() && !updatedMetaData.isCorrect()){
+                throw new RuntimeException("Firstly you must assign the correct answer!");
+            }else{
+                quizMetaDataRepository.update(updatedMetaData,quizMetaDataID);
+                return "QuizMetaData successfully updated!";
+            }
+        }else{
+            throw new RuntimeException("QuizMetaData not found with ID: " + quizMetaDataID);
+        }
+    }
+
     @Override
     public void deleteQuizMetaData(int quizMetaDataID){
-        quizMetaDataRepository.delete(quizMetaDataID);
+        QuizMetaData quizMetaData = quizMetaDataRepository.getQuizMetaDataByID(quizMetaDataID);
+        if(quizMetaData!=null){
+            quizMetaDataRepository.delete(quizMetaDataID);
+        }else{
+            throw new RuntimeException("QuizMetaData not found with ID: " + quizMetaDataID);
+        }
     }
 }
 

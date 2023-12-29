@@ -61,7 +61,7 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public List<QuizQuestion> getAllQuizQuestion() {
-        return quizQuestionRepository.getAllQuizQuestion();
+        return quizQuestionRepository.getAllQuizQuestions();
     }
 
     @Override

@@ -24,12 +24,12 @@ public class CreateTable {
     }
 
 
-    public static String  createUserQuiz(){
+    public static void  createUserQuiz(){
         try (Statement statement = DBConnectorConfig.getConnection().createStatement()){
-            String query = "DROP SEQUENCE IF EXISTS person_id_seq;\n" +
-                    "CREATE SEQUENCE person_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 2147483647 START 1 CACHE 1;"+
-                    "CREATE TABLE IF NOT EXISTS person("+
-                    "id INTEGER  DEFAULT nextval('person_id_seq') PRIMARY KEY," +
+            String query = "DROP SEQUENCE IF EXISTS userquiz_id_seq;\n" +
+                    "CREATE SEQUENCE userQuiz_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 2147483647 START 1 CACHE 1;"+
+                    "CREATE TABLE IF NOT EXISTS userquiz("+
+                    "id INTEGER  DEFAULT nextval('userquiz_id_seq') PRIMARY KEY," +
                     "name VARCHAR(255),"+
                     "uuid VARCHAR(255),"+
                     "description VARCHAR(255),"+
@@ -41,14 +41,15 @@ public class CreateTable {
                     "created_at Date,"+
                     "user_id BIGINT NOT NULL,"+
                     "quiz_id BIGINT NOT NULL,"+
-                    "CONSTRAINT user_id FOREIGN KEY (id) REFERENCES person(id) NOT DEFERRABLE,"+
-                    "CONSTRAİNT quiz_id FOREIGN KEY (id) REFERENCES quiz(id) NOT DEFERRABLE)";
+                    "CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES person(id) NOT DEFERRABLE,"+
+                    "CONSTRAINT fk_quiz FOREIGN KEY (quiz_id) REFERENCES quiz(quiz_id) NOT DEFERRABLE)";
             statement.executeUpdate(query);
-            return "User Quiz table created successfully";
+            System.out.println("User Quiz table created successfully");
         } catch (SQLException e) {
             e.printStackTrace();
-            return "Error creating User Quiz table:" + e.getMessage();
+
         }
+
     }
 
     public static void createQuizMetaDataTable(){
@@ -60,7 +61,7 @@ public class CreateTable {
                     "option VARCHAR(255),"+
                     "correct BOOLEAN DEFAULT false,"+
                     "quizQuestion_id integer NOT NULL,"+
-                    "CONSTRAINT fk_quizQuestion_id FOREIGN KEY(id) REFERENCES quizQuestion(id) NOT DEFERRABLE)";
+                    "CONSTRAINT fk_quizquestion FOREIGN KEY(quizQuestion_id) REFERENCES quizQuestion(id) NOT DEFERRABLE)";
             statement.executeUpdate(query);
             System.out.println("QuizMetaData table created successfully");
         } catch (SQLException e) {
@@ -76,18 +77,15 @@ public class CreateTable {
                     "id SERIAL PRIMARY KEY ,  " +
                     "quizId INT, " + // FOREIGN KEY IT WILL BE EDITED AFTER CREATING THE QUIZ CLASS
                     "uuid VARCHAR(255) NOT NULL, " +
-                    "question TEXT NOT NULL ) ";
+                    "question TEXT NOT NULL," +
+                    "CONSTRAINT fk_quiz FOREIGN KEY (quizId) REFERENCES quiz(quiz_id) NOT DEFERRABLE) ";
             statement.executeUpdate(query);
             System.out.println("createQuizQuestion table created successfully");
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-
-
-
     }
-
 
 
     public static void createQuizTable(){

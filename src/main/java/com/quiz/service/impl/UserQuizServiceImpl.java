@@ -47,7 +47,7 @@ public class UserQuizServiceImpl implements UserQuizService {
 
         int quizScore = calculateScore(userQuiz);
 
-        String result = evaluate(userQuiz);
+        String result = evaluate(quizScore);
 
 
 
@@ -59,8 +59,8 @@ public class UserQuizServiceImpl implements UserQuizService {
         return userQuiz.getCorrectAnswersCount() * 10;
     }
 
-    private String evaluate(UserQuiz userQuiz) {
-        int score = calculateScore(userQuiz);
+    private String evaluate(int score) {
+
         if (score >= 70) {
             return "You Passed the Quiz";
         } else {

@@ -40,32 +40,43 @@ public class UserQuizServiceImpl implements UserQuizService {
         userQuiz.setInstructions(quiz.getInstructions());
         userQuiz.setDuration(quiz.getDuration());
         userQuiz.setDifficulty(quiz.getDifficulty());
-        userQuiz.setCorrectAnswersCount(0);
 
 
         userQuizRepository.save(userQuiz);
 
-        int quizScore = calculateScore(userQuiz);
 
-        String result = evaluate(quizScore);
-
+        String result = evaluate(userQuiz);
 
 
-        return user.getUserName() + " has taken " + quiz.getName() + " quiz. Quiz Score: " + quizScore + ". Result: " + result;
+        return user.getUserName() + " has taken " + quiz.getName() + " quiz. Quiz Score: " + quiz.getResult().getPoint() + ". Result: " + result;
     }
 
-    private int calculateScore(UserQuiz userQuiz) {
 
-        return userQuiz.getCorrectAnswersCount() * 10;
-    }
+    private String evaluate(UserQuiz userQuiz) {
 
-    private String evaluate(int score) {
+        double quizpoint = userQuiz.getQuiz().getResult().getPoint();
+        double total = 0;
 
-        if (score >= 70) {
-            return "You Passed the Quiz";
-        } else {
-            return "You did not pass the Quiz, Please try again!";
+        userQuiz.getQuiz().getResults().add(quizpoint);
+
+
+        for ( double result: userQuiz.getQuiz().getResults()){
+            total += result;
         }
+
+        double average = total / userQuiz.getQuiz().getResults().size();
+        userQuizRepository.update(userQuiz , userQuiz.getId());
+
+        if (quizpoint > average){
+            return "Your score is below the average. average is " + average + ".";
+        }else if (quizpoint == average){
+            return "Your score is equal to the average. average is " + average + ".";
+        }else {
+            return "Your score is above the average. average is " + average + ".";
+        }
+
+
+
     }
 
 }

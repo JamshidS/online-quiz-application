@@ -13,7 +13,6 @@ public class UserQuiz {
     private String difficulty;
     private Boolean status;
     private LocalDate createdAt;
-    private int correctAnswersCount;
     private User user;
     private Quiz quiz;
 
@@ -95,14 +94,6 @@ public class UserQuiz {
 
     public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
-    }
-
-    public int getCorrectAnswersCount() {
-        return correctAnswersCount;
-    }
-
-    public void setCorrectAnswersCount(int correctAnswersCount) {
-        this.correctAnswersCount = correctAnswersCount;
     }
 
     public User getUser() {

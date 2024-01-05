@@ -52,7 +52,7 @@ public class QuizMetaDataRepository {
         try(PreparedStatement statement = DBConnectorConfig.getConnection().prepareStatement(query)){
             statement.setString(1,quizMetaData.getOption());
             statement.setBoolean(2,quizMetaData.isCorrect());
-            statement.setInt(3,quizMetaData.getQuizQuestion().getId());
+            statement.setLong(3,quizMetaData.getQuizQuestion().getId());
             statement.executeUpdate();
         }catch (SQLException e){
             e.printStackTrace();

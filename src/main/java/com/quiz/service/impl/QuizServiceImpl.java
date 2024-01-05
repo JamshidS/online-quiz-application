@@ -166,15 +166,24 @@ public class QuizServiceImpl implements QuizService {
         return quizQuestionRepository.getAllQuizQuestion();
     }
 
+    // TODO: this is wrong some write the correct version of this method.
     @Override
+    public List<QuizQuestion> getAllQuizQuestionByQuizID(Long quizId) {
+        return null;
+    }
+
+
+    // TODO: this is wrong some write the correct version of this method.
+
+    /*@Override
     public List<QuizQuestion> getAllQuizQuestionByQuizID(Long quizId) {
 
         Quiz quiz = quizRepository.getQuizById(quizId);
         if (quiz != null){
-            return quizQuestionRepository.getAllQuizQuestion(Math.toIntExact(quizId));
+            return quizQuestionRepository.getAllQuizQuestion();
         }
         throw new IllegalArgumentException("Qui< with ID " + quizId + "not found.");
-    }
+    }*/
 }
 
 

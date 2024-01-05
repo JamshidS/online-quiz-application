@@ -47,15 +47,15 @@ public class QuizQuestionRepository {
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()){
-                int id1 = resultSet.getInt("id");
+                long idFromDB = resultSet.getInt("id");
                 String uuid = resultSet.getString("uuid");
                 Long quizId = resultSet.getLong("quizId");
                 String questionText = resultSet.getString("question");
                 LocalDateTime createdAt = resultSet.getTimestamp("createdDateTime").toLocalDateTime();
 
                 updatedQuestion  = new QuizQuestion();
-                updatedQuestion .setId(id1);
-                updatedQuestion   .setUuid(uuid);
+                updatedQuestion.setId(idFromDB);
+                updatedQuestion.setUuid(uuid);
                 updatedQuestion.setQuizId(quizId);
                 updatedQuestion.setQuestion(questionText);
                 updatedQuestion.setCreatedDateTime(createdAt);
@@ -101,14 +101,14 @@ public class QuizQuestionRepository {
             statement.setInt(1,id);
             try(ResultSet resultSet = statement.executeQuery()){
                 if (resultSet.next()) {
-                    int id1 = resultSet.getInt("id");
+                    long idFromDB = resultSet.getInt("id");
                     String uuid = resultSet.getString("uuid");
                     Long quizId = resultSet.getLong("quizId");
                     String questionText = resultSet.getString("question");
                     LocalDateTime createdDateTime = resultSet.getTimestamp("createdDateTime").toLocalDateTime();
 
                     quizQuestion = new QuizQuestion();
-                    quizQuestion.setId(id1);
+                    quizQuestion.setId(idFromDB);
                     quizQuestion.setUuid(uuid);
                     quizQuestion.setQuizId(quizId);
                     quizQuestion.setQuestion(questionText);
@@ -158,7 +158,7 @@ public class QuizQuestionRepository {
                 .prepareStatement(query)) {
             try(ResultSet resultSet = statement.executeQuery()){
                 while (resultSet.next()){
-                    int questionId = resultSet.getInt("id");
+                    long questionId = resultSet.getInt("id");
                     Long quizId=resultSet.getLong("quizId");
                     String uuid=resultSet.getString("uuid");
                     String question=resultSet.getString("question");

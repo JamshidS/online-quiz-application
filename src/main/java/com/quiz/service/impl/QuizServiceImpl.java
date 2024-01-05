@@ -18,12 +18,15 @@ import java.util.List;
 
 public class QuizServiceImpl implements QuizService {
 
-    private final QuizMetaDataRepository quizMetaDataRepository;
     private final QuizQuestionRepository quizQuestionRepository;
+    private final QuizRepository quizRepository;
+    private final QuizMetaDataRepository quizMetaDataRepository;
 
-    public QuizServiceImpl(QuizMetaDataRepository quizMetaDataRepository, QuizQuestionRepository quizQuestionRepository){
-        this.quizMetaDataRepository = quizMetaDataRepository;
+    public QuizServiceImpl(QuizQuestionRepository quizQuestionRepository, QuizRepository quizRepository, QuizMetaDataRepository quizMetaDataRepository) {
         this.quizQuestionRepository = quizQuestionRepository;
+
+        this.quizRepository = quizRepository;
+        this.quizMetaDataRepository = quizMetaDataRepository;
     }
 
     @Override
@@ -53,24 +56,15 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public QuizMetaData getQuizMetaData(int quizMetaDataID){
+    public QuizMetaData getQuizMetaData(int quizMetaDataID) {
         QuizMetaData quizMetaData = quizMetaDataRepository.getQuizMetaDataByID(quizMetaDataID);
-        if (quizMetaData!=null){
+        if (quizMetaData != null) {
             return quizMetaData;
-        }else{
+        } else {
             throw new RuntimeException("QuizMetaData not found with ID: " + quizMetaDataID);
 
-
-    private final QuizQuestionRepository quizQuestionRepository;
-    private final QuizRepository quizRepository;
-
-    public QuizServiceImpl(QuizQuestionRepository quizQuestionRepository, QuizRepository quizRepository) {
-        this.quizQuestionRepository = quizQuestionRepository;
-
-        this.quizRepository = quizRepository;
+        }
     }
-
-
 
 
     @Override
@@ -139,11 +133,11 @@ public class QuizServiceImpl implements QuizService {
             throw new RuntimeException("QuizMetaData not found with ID: " + quizMetaDataID);
         }
     }
-}
+
 
 
     public String updateQuizQuestion(Long questionId, String newQuestion) {
-        QuizQuestion updateQuizQuestion = quizQuestionRepository.getQuizQuestionByID(questionId);
+        QuizQuestion updateQuizQuestion = quizQuestionRepository.getQuizQuestionByID(Math.toIntExact(questionId));
         if(updateQuizQuestion != null){
             quizQuestionRepository.updateQuizQuestion(questionId,newQuestion);
             return "Question updated successfully.";
@@ -156,7 +150,7 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public String  deleteQuizQuestion(Long questionId) {
-       if (quizQuestionRepository.getQuizQuestionByID(questionId) == null){
+       if (quizQuestionRepository.getQuizQuestionByID(Math.toIntExact(questionId)) == null){
 
            throw new IllegalArgumentException("Deleting quiz failed, no rows affected.");
        } else {
@@ -169,7 +163,7 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public List<QuizQuestion> getAllQuizQuestion() {
-        return quizQuestionRepository.getAllQuizQuestions();
+        return quizQuestionRepository.getAllQuizQuestion();
     }
 
     @Override
@@ -177,11 +171,12 @@ public class QuizServiceImpl implements QuizService {
 
         Quiz quiz = quizRepository.getQuizById(quizId);
         if (quiz != null){
-            return quizQuestionRepository.getAllQuestionByQuizID(quizId);
+            return quizQuestionRepository.getAllQuizQuestion(Math.toIntExact(quizId));
         }
         throw new IllegalArgumentException("Qui< with ID " + quizId + "not found.");
     }
 }
+
 
 
 

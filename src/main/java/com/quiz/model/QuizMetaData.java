@@ -9,11 +9,9 @@ public class QuizMetaData {
     public QuizMetaData() {
     }
 
-    public QuizMetaData(int id, String option, boolean correct, QuizQuestion quizQuestion) {
-        this.id = id;
+    public QuizMetaData(String option, boolean correct) {
         this.option = option;
         this.correct = correct;
-        this.quizQuestion = quizQuestion;
     }
 
     public int getId() {

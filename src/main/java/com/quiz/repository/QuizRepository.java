@@ -2,11 +2,10 @@ package com.quiz.repository;
 
 import com.quiz.config.DBConnectorConfig;
 import com.quiz.model.Quiz;
+import com.quiz.model.QuizQuestion;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,6 +45,7 @@ public class QuizRepository {
 
         return quiz;
     }
+
     public void updateQuiz(Quiz quiz) {
         String query = "UPDATE quiz SET quiz_uuid=?, quiz_name=?, quiz_description=?, quiz_instructions=?, quiz_duration=?, quiz_attempts=?, quiz_difficulty=?, quiz_status=?, quiz_created_at=? WHERE quiz_id=?";
 
@@ -90,6 +90,7 @@ public class QuizRepository {
             e.printStackTrace();
         }
     }
+
     public List<Quiz> getAllQuizzes() {
         List<Quiz> quizzes = new ArrayList<>();
         String query = "SELECT * FROM quiz";
@@ -119,28 +120,47 @@ public class QuizRepository {
         return quizzes;
     }
 
-    public Quiz getQuizById(long id) {
-        Quiz quiz = new Quiz();
+
+    public Quiz getQuizById(Long quizId) {
+        Quiz quiz = null;
+
         String query = "SELECT * FROM quiz WHERE quiz_id=?";
-        try (PreparedStatement statement = DBConnectorConfig.getConnection().prepareStatement(query)) {
-            statement.setLong(1, id);
+        try (PreparedStatement statement = DBConnectorConfig.getConnection()
+                .prepareStatement(query)) {
+            statement.setLong(1, quizId);
             try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    quiz.setId(resultSet.getLong("quiz_id"));
-                    quiz.setUuid(resultSet.getString("quiz_uuid"));
-                    quiz.setName(resultSet.getString("quiz_name"));
-                    quiz.setDescription(resultSet.getString("quiz_description"));
-                    quiz.setInstructions(resultSet.getString("quiz_instructions"));
-                    quiz.setDuration(resultSet.getInt("quiz_duration"));
-                    quiz.setAttempts(resultSet.getInt("quiz_attempts"));
-                    quiz.setDifficulty(resultSet.getString("quiz_difficulty"));
-                    quiz.setStatus(resultSet.getBoolean("quiz_status"));
-                    quiz.setCreatedAt(resultSet.getDate("quiz_created_at").toLocalDate());
+                if (resultSet.next()) {
+                    Long quiz_id = resultSet.getLong("quiz_id");
+                    String quiz_uuid = resultSet.getString("quiz_uuid");
+                    String quiz_name = resultSet.getString("quiz_name");
+                    String quiz_description = resultSet.getString("quiz_description");
+                    String quiz_instructions = resultSet.getString("quiz_instructions");
+                    int quiz_duration = resultSet.getInt("quiz_duration");
+                    int quiz_attempt = resultSet.getInt("quiz_attempt");
+                    String quiz_difficulty = resultSet.getString("quiz_difficulty");
+                    Boolean quiz_status = resultSet.getBoolean("quiz_status");
+                    Date quiz_created_at = resultSet.getDate("quiz_created_at");
+
+
+                    quiz = new Quiz();
+                    quiz.setId(quizId);
+                    quiz.setUuid(quiz_uuid);
+                    quiz.setName(quiz_name);
+                    quiz.setDescription(quiz_description);
+                    quiz.setInstructions(quiz_instructions);
+                    quiz.setDuration(quiz_duration);
+                    quiz.setAttempts(quiz_attempt);
+                    quiz.setDifficulty(quiz_difficulty);
+                    quiz.setStatus(quiz_status);
+                    quiz.setCreatedAt(quiz_created_at.toLocalDate());
+
+                } else {
+                    System.out.println("No quiz matching the specified ID found. ID =" + quizId);
                 }
             }
-        } catch (SQLException e) {
+        }
+         catch (SQLException e) {
             e.printStackTrace();
-
         }
         return quiz;
     }

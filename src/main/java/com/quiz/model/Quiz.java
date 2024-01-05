@@ -15,6 +15,7 @@ public class Quiz {
     private String difficulty;
     private boolean status;
     private LocalDate createdAt;
+    private List<Double> results;
     private List<QuizQuestion> quizQuestions;
     private Result result;
 
@@ -123,6 +124,14 @@ public class Quiz {
 
     public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public List<Double> getResults() {
+        return results;
+    }
+
+    public void setResults(List<Double> results) {
+        this.results = results;
     }
 
     public List<QuizQuestion> getQuizQuestions() {

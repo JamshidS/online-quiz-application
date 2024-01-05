@@ -1,12 +1,17 @@
 package com.quiz.service;
 
 
+import com.quiz.model.Quiz;
+import com.quiz.model.User;
+
+
 import com.quiz.model.QuizMetaData;
 
 
 import com.quiz.model.QuizQuestion;
 
 import java.util.List;
+
 
 public interface QuizService {
 

@@ -3,73 +3,48 @@ package com.quiz.model;
 import java.util.List;
 
 public class User {
-    private Long id;
-    private String fullName;
-    private String userName;
+    private int id;
+    private String fullname;
+    private String username;
     private String email;
     private String password;
     private String uuid;
-    private List<UserQuiz> quizs;
-
+    private List<UserQuiz> userQuizList;
 
     public User(){
 
     }
 
-
-    public User(Long id, String fullName, String userName, String email, String password, String uuid, List<UserQuiz> quizs) {
-        this.id = id;
-        this.fullName = fullName;
-        this.userName = userName;
+    public User(String fullname, String username, String email, String password, String uuid) {
+        this.fullname = fullname;
+        this.username = username;
         this.email = email;
         this.password = password;
         this.uuid = uuid;
-        this.quizs = quizs;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", fullName='" + fullName + '\'' +
-                ", userName='" + userName + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", uuid='" + uuid + '\'' +
-                ", quizs=" + quizs +
-                '}';
-    }
-
-    public List<UserQuiz> getQuizs() {
-        return quizs;
-    }
-
-    public void setQuizs(List<UserQuiz> quizs) {
-        this.quizs = quizs;
-    }
-
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getFullname() {
+        return fullname;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {
@@ -96,4 +71,11 @@ public class User {
         this.uuid = uuid;
     }
 
+    public List<UserQuiz> getUserQuizList() {
+        return userQuizList;
+    }
+
+    public void setUserQuizList(List<UserQuiz> userQuizList) {
+        this.userQuizList = userQuizList;
+    }
 }

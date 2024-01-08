@@ -8,7 +8,6 @@ import com.quiz.repository.QuizQuestionRepository;
 
 import com.quiz.model.Quiz;
 import com.quiz.repository.QuizRepository;
-
 import com.quiz.service.QuizService;
 
 import java.util.List;
@@ -23,7 +22,6 @@ public class QuizServiceImpl implements QuizService {
 
     public QuizServiceImpl(QuizQuestionRepository quizQuestionRepository, QuizRepository quizRepository, QuizMetaDataRepository quizMetaDataRepository) {
         this.quizQuestionRepository = quizQuestionRepository;
-
         this.quizRepository = quizRepository;
         this.quizMetaDataRepository = quizMetaDataRepository;
     }

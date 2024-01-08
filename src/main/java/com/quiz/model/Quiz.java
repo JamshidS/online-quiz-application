@@ -21,7 +21,6 @@ public class Quiz {
     public Quiz() {
 
     }
-
     public Quiz(int id, String uuid, String name, String description, String instructions, int duration, int attempts, String difficulty, boolean status, LocalDate createdAt) {
         this.id = id;
         this.uuid = uuid;

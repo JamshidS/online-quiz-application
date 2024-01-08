@@ -41,7 +41,7 @@ public class CreateTable {
                     "created_at Date,"+
                     "user_id BIGINT NOT NULL,"+
                     "quiz_id BIGINT NOT NULL,"+
-                    "CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES person(id) NOT DEFERRABLE,"+
+                    "CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES user(user_id) NOT DEFERRABLE,"+
                     "CONSTRAINT fk_quiz FOREIGN KEY (quiz_id) REFERENCES quiz(quiz_id) NOT DEFERRABLE)";
             statement.executeUpdate(query);
             System.out.println("User Quiz table created successfully");
@@ -105,8 +105,14 @@ public class CreateTable {
                     "quiz_status BOOLEAN," +
                     "quiz_created_at DATE)";
 
+            statement.executeUpdate(query);
+
+            query = "CREATE TABLE IF NOT EXISTS results(" +
+                    "quiz_id INTEGER REFERENCES quiz(quiz_id) ON DELETE CASCADE," +
+                    "double_value DOUBLE PRECISION)";
 
             statement.executeUpdate(query);
+
             System.out.println("Quiz table created successfully");
         }catch (SQLException e){
             e.printStackTrace();

@@ -5,14 +5,8 @@ public class Result {
     private String userUuid;
     private String quizUuid;
     private double point;
-    private String quiz; //quiz was kept symbolically as string
+    private Quiz quiz; //quiz was kept symbolically as string
 
-    public Result(String userUuid, String quizUuid, double point, String quiz) {
-        this.userUuid = userUuid;
-        this.quizUuid = quizUuid;
-        this.point = point;
-        this.quiz = quiz;
-    }
 
     public Long getId() {
         return id;
@@ -46,11 +40,11 @@ public class Result {
         this.point = point;
     }
 
-    public String getQuiz() {
+    public Quiz getQuiz() {
         return quiz;
     }
 
-    public void setQuiz(String quiz) {
+    public void setQuiz(Quiz quiz) {
         this.quiz = quiz;
     }
 }

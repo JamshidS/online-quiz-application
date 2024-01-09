@@ -6,8 +6,8 @@ import com.quiz.model.UserQuiz;
 import java.util.List;
 
 public interface UserService {
-    User getUser(int userID);
-    List<User> getAllUser();
+    User getUserByID(int userID);
+    List<User> getAllUsers();
     String updateUser(int userID, User updatedUser);
 
 }

@@ -16,21 +16,15 @@ public class UserServiceImpl implements UserService {
 
     public String saveUser(User user){
         if(user!=null){
-            for(User testUsers : userRepository.getAll()){
-                if(user.getUsername().equals(testUsers.getUsername())){
-                    throw new RuntimeException("This username is already in use!");
-                }
-                if(user.getEmail().equals(testUsers.getEmail())){
-                    throw new RuntimeException("This email is already in use!");
-                }
-            }
+            isUserUnique(user);
             userRepository.save(user);
             return "User successfully saved.";
         }else{
             throw new RuntimeException("User not found with ID: ");
         }
     }
-    public User getUser(int userID){
+
+    public User getUserByID(int userID){
         User user = userRepository.getById(userID);
         if(user!=null){
             return user;
@@ -39,7 +33,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    public List<User> getAllUser(){
+    public List<User> getAllUsers(){
         List<User> allUser = userRepository.getAll();
         if(allUser!=null){
             return allUser;
@@ -50,20 +44,10 @@ public class UserServiceImpl implements UserService {
 
     public String updateUser(int userID, User updatedUser){
         User user = userRepository.getById(userID);
+        List<User> users = userRepository.getAll();
         if(user!=null){
-            if(!user.getUsername().equals(updatedUser.getUsername())){
-                for(User testUsers : userRepository.getAll()){
-                    if(user.getUsername().equals(testUsers.getUsername())){
-                        throw new RuntimeException("This username is already in use!");
-                    }
-                }
-            }
-            if(!user.getEmail().equals(updatedUser.getEmail())){
-                for(User testUsers : userRepository.getAll()){
-                    if(user.getEmail().equals(testUsers.getEmail())){
-                        throw new RuntimeException("This email is already in use!");
-                    }
-                }
+            if(!user.getUserName().equals(updatedUser.getUserName()) || !user.getEmail().equals(updatedUser.getEmail())){
+                isUserUnique(user);
             }
             userRepository.update(updatedUser, userID);
             return "User successfully updated!";
@@ -72,4 +56,15 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    public void isUserUnique(User user){
+        List<User> users = userRepository.getAll();
+        for(User testUsers : users){
+            if(user.getUserName().equals(testUsers.getUserName())){
+                throw new RuntimeException("This username is already in use!");
+            }
+            if(user.getEmail().equals(testUsers.getEmail())){
+                throw new RuntimeException("This email is already in use!");
+            }
+        }
+    }
 }

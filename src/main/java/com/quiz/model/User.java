@@ -4,8 +4,8 @@ import java.util.List;
 
 public class User {
     private int id;
-    private String fullname;
-    private String username;
+    private String fullName;
+    private String userName;
     private String email;
     private String password;
     private String uuid;
@@ -15,9 +15,9 @@ public class User {
 
     }
 
-    public User(String fullname, String username, String email, String password, String uuid) {
-        this.fullname = fullname;
-        this.username = username;
+    public User(String fullName, String userName, String email, String password, String uuid) {
+        this.fullName = fullName;
+        this.userName = userName;
         this.email = email;
         this.password = password;
         this.uuid = uuid;
@@ -31,20 +31,20 @@ public class User {
         this.id = id;
     }
 
-    public String getFullname() {
-        return fullname;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getEmail() {

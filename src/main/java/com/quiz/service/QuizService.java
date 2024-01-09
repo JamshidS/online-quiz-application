@@ -24,8 +24,6 @@ public interface QuizService {
 
     void deleteQuizMetaData(int quizMetaDataID);
 
-    String saveQuizMetaData(int quizMetaDataID);
-
     QuizQuestion getQuizQuestion(int id);
 
     List<QuizQuestion> getAllQuizQuestion();

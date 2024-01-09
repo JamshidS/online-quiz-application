@@ -90,7 +90,6 @@ public class QuizRepository {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return allQuiz;
     }
 

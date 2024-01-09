@@ -13,9 +13,6 @@ import com.quiz.service.QuizService;
 import java.util.List;
 
 public class QuizServiceImpl implements QuizService {
-
-// TODO: relations of classes are not implement in the function as it's not added column to table. I should fix it.
-
     private final QuizQuestionRepository quizQuestionRepository;
     private final QuizRepository quizRepository;
     private final QuizMetaDataRepository quizMetaDataRepository;
@@ -120,21 +117,26 @@ public class QuizServiceImpl implements QuizService {
         }
     }
 
-    @Override
-    public String saveQuizMetaData(int quizMetaDataID) {
-        return null;
-    }
-
     // QuizQuestion operations:
 
     @Override
     public QuizQuestion getQuizQuestion(int id) {
-        return null;
+        QuizQuestion quizQuestion = quizQuestionRepository.getQuizQuestionByID(id);
+        if (quizQuestion != null) {
+            return quizQuestion;
+        } else {
+            throw new RuntimeException("Quiz not found with ID: " + id);
+        }
     }
 
     @Override
     public List<QuizQuestion> getAllQuizQuestion() {
-        return null;
+        List<QuizQuestion> allQuizQuestions = quizQuestionRepository.getAllQuizQuestion();
+        if (allQuizQuestions != null) {
+            return allQuizQuestions;
+        } else {
+            throw new RuntimeException("QuizQuestion not found.");
+        }
     }
 
     @Override
@@ -194,7 +196,7 @@ public class QuizServiceImpl implements QuizService {
     public Quiz updateQuiz(int id, Quiz updatedQuiz) {
         Quiz quiz = quizRepository.getById(id);
         if (quiz != null) {
-            quizRepository.update(quiz,id);
+            quizRepository.update(updatedQuiz,id);
             return quiz;
         } else {
             throw new RuntimeException("Quiz not found with ID: " + id);
@@ -217,7 +219,7 @@ public class QuizServiceImpl implements QuizService {
             quizRepository.save(quiz);
             return "Quiz successfully saved.";
         } else {
-            throw new RuntimeException("Quiz not found with ID: " + quiz.getId());
+            throw new RuntimeException("An error occurred while saving quiz");
         }
     }
 

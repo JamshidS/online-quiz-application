@@ -2,7 +2,7 @@ package com.quiz.model;
 
 public class Result {
     private Long id;
-    private String userUuid;
+    private String userQuizUuid;
     private String quizUuid;
     private double point;
     private Quiz quiz; //quiz was kept symbolically as string
@@ -16,12 +16,12 @@ public class Result {
         this.id = id;
     }
 
-    public String getUserUuid() {
-        return userUuid;
+    public String getUserQuizUuid() {
+        return userQuizUuid;
     }
 
-    public void setUserUuid(String userUuid) {
-        this.userUuid = userUuid;
+    public void setUserQuizUuid(String userQuizUuid) {
+        this.userQuizUuid = userQuizUuid;
     }
 
     public String getQuizUuid() {

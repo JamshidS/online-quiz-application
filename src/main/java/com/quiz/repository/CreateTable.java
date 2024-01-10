@@ -119,9 +119,9 @@ public class CreateTable {
                     "CREATE SEQUENCE result_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 2147483647 START 1 CACHE 1;"+
                     "CREATE TABLE IF NOT EXISTS result(" +
                     "id INTEGER DEFAULT nextval('result_id_seq') PRIMARY KEY," +
-                    "userUuid VARCHAR(255),"+
-                    "quizUuid VARCHAR(255),"+
-                    "point DOUBLE,"+
+                    "user_quiz_uuid VARCHAR(255),"+
+                    "quizu_uuid VARCHAR(255),"+
+                    "point DOUBLE PRECISION,"+
                     "quiz_id BIGINT NOT NULL,"+
                     "CONSTRAINT fk_quiz FOREIGN KEY (quiz_id) REFERENCES quiz(quiz_id) NOT DEFERRABLE);";
             statement.executeUpdate(query);

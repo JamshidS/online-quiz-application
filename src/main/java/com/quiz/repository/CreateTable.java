@@ -88,16 +88,6 @@ public class CreateTable {
             String query = "DROP SEQUENCE IF EXISTS quiz_id_seq;\n" +
                     "CREATE SEQUENCE quiz_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 2147483647 START 1 CACHE 1;"+
                     "CREATE TABLE IF NOT EXISTS quiz(" +
-                    "quiz_id INTEGER DEFAULT nextval('quiz_id') PRIMARY KEY," +
-                    "quiz_uuid  UUID DEFAULT gen_random_uuid(), "+
-                    "quiz_name VARCHAR(255),"+
-                    "quiz_description VARCHAR(255) ," +
-                    "quiz_instructions VARCHAR(255),"+
-                    "quiz_duration INTEGER,"+
-                    "quiz_attempt INTEGER,"+
-                    "quiz_difficulty VARCHAR(255),"+
-                    "quiz_status BOOLEAN," +
-                    "quiz_created_at DATE)";
                     "id INTEGER DEFAULT nextval('quiz_id_seq') PRIMARY KEY," +
                     "uuid VARCHAR(255),"+
                     "name VARCHAR(255),"+

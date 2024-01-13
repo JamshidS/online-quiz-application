@@ -132,9 +132,8 @@ public class QuizQuestionRepository {
             try(ResultSet resultSet = statement.executeQuery()){
                 while (resultSet.next()){
                     int metadata_id = resultSet.getInt("id");
-                    Long quizquestionId =resultSet.getLong("quizquestion_id");
                     String option=resultSet.getString("option");
-                    Boolean correct=resultSet.getBoolean("correct");
+                    boolean correct=resultSet.getBoolean("correct");
 
                     QuizMetaData quizMetaData = new QuizMetaData();
                     quizMetaData.setCorrect(correct);

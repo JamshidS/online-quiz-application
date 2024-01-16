@@ -82,10 +82,6 @@ public class CreateTable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-
-
-
     }
 
 
@@ -113,6 +109,12 @@ public class CreateTable {
         }catch (SQLException e){
             e.printStackTrace();
         }
+    }
+
+
+    public static void createResultTable(){
+        // create result table here
+        // you can take reference of other methods
     }
 }
 

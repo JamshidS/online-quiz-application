@@ -45,11 +45,11 @@ public class UserServiceImpl implements UserService {
     public String updateUser(int userID, User updatedUser){
         User user = userRepository.getById(userID);
         if(user!=null){
-            if(!user.getUserName().equals(updatedUser.getUserName()) || !user.getEmail().equals(updatedUser.getEmail())){
-                isUserUnique(user);
+            if((!user.getUserName().equals(updatedUser.getUserName()) || !user.getEmail().equals(updatedUser.getEmail())) && isUserUnique(user)){
+                userRepository.update(updatedUser, userID);
+                return "User successfully updated!";
             }
-            userRepository.update(updatedUser, userID);
-            return "User successfully updated!";
+            throw new RuntimeException("User failed to update!");
         }else{
             throw new RuntimeException("User not found with ID: " + userID);
         }

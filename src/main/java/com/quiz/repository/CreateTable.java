@@ -116,7 +116,7 @@ public class CreateTable {
                     "CREATE TABLE IF NOT EXISTS result(" +
                     "id INTEGER DEFAULT nextval('result_id_seq') PRIMARY KEY," +
                     "user_quiz_uuid VARCHAR(255),"+
-                    "quizu_uuid VARCHAR(255),"+
+                    "quiz_uuid VARCHAR(255),"+
                     "point DOUBLE PRECISION,"+
                     "quiz_id BIGINT NOT NULL,"+
                     "CONSTRAINT fk_quiz FOREIGN KEY (quiz_id) REFERENCES quiz(quiz_id) NOT DEFERRABLE);";

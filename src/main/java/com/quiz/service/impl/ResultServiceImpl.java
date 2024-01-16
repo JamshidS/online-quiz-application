@@ -1,5 +1,6 @@
 package com.quiz.service.impl;
 
+import com.quiz.exceptions.CustomException;
 import com.quiz.model.Result;
 import com.quiz.repository.ResultRepository;
 import com.quiz.service.ResultService;
@@ -16,7 +17,8 @@ public class ResultServiceImpl implements ResultService {
     @Override
     public String saveResult(Result result) {
         if (result == null) {
-            throw new RuntimeException("Result Not Found");
+            CustomException.throwNotFoundException("Result Not Found");
+            return "Result Not Found";
     }else {
             Result resultforDatabase = new Result();
             resultforDatabase.setId(result.getId());
@@ -34,7 +36,8 @@ public class ResultServiceImpl implements ResultService {
     @Override
     public String deleteResult(long resultId) {
         if (resultRepository.getResultById(resultId) == null) {
-            throw new RuntimeException("Result Not Found");
+            CustomException.throwNotFoundException("Result Not Found");
+            return "Result Not Found";
     }else {
             resultRepository.delete(resultId);
             return "Result has been Deleted successfully";
@@ -45,7 +48,8 @@ public class ResultServiceImpl implements ResultService {
     public String updateResult(Result result) {
         Result resultforDatabase = new Result();
         if (result == null) {
-            throw new RuntimeException("Result Not Found");
+            CustomException.throwNotFoundException("Result Not Found");
+            return "Result Not Found";
     }else {
         resultforDatabase.setUserQuizUuid(result.getUserQuizUuid());
         resultforDatabase.setQuizUuid(result.getQuizUuid());
@@ -60,9 +64,10 @@ public class ResultServiceImpl implements ResultService {
     @Override
     public Result getResultById(long resultId) {
     if (resultRepository.getResultById(resultId) == null) {
-            throw new RuntimeException("Result Not Found");
+        CustomException.throwNotFoundException("Result Not Found");
+        return null;
     }else {
-            return resultRepository.getResultById(resultId);
+        return resultRepository.getResultById(resultId);
     }
     }
 

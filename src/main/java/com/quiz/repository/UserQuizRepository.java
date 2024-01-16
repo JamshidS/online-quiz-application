@@ -34,7 +34,7 @@ public class UserQuizRepository {
                     userQuiz.setStatus(resultSet.getBoolean("status"));
                     userQuiz.setCreatedAt(resultSet.getDate("created_at").toLocalDate());
                     userQuiz.setUser(userRepository.getUserById(resultSet.getLong("user_id")));
-                    userQuiz.setQuiz(quizRepository.getQuizById(resultSet.getLong("quiz_id")));
+                    userQuiz.setQuiz(quizRepository.getById((int) resultSet.getLong("quiz_id")));
 
 
 

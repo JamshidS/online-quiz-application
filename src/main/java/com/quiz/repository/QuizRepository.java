@@ -2,19 +2,19 @@ package com.quiz.repository;
 
 import com.quiz.config.DBConnectorConfig;
 import com.quiz.model.Quiz;
+import com.quiz.model.QuizMetaData;
+import com.quiz.model.QuizQuestion;
+import com.quiz.model.User;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class QuizRepository {
-    public Quiz addQuiz(Quiz quiz) {
-        String query = "INSERT INTO quiz (quiz_uuid, quiz_name, quiz_description, quiz_instructions, quiz_duration, quiz_attempts, quiz_difficulty, quiz_status, quiz_created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-        try (PreparedStatement statement = DBConnectorConfig.getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+    public Quiz save(Quiz quiz) {
+        String query = "INSERT INTO quiz (uuid,name,description,instructions,duration,attempt,difficulty,status,created_at,result_id) VALUES (?,?,?,?,?,?,?,?,?,?)";
+        try(PreparedStatement statement = DBConnectorConfig.getConnection().prepareStatement(query)){
             statement.setString(1, quiz.getUuid());
             statement.setString(2, quiz.getName());
             statement.setString(3, quiz.getDescription());
@@ -23,32 +23,17 @@ public class QuizRepository {
             statement.setInt(6, quiz.getAttempts());
             statement.setString(7, quiz.getDifficulty());
             statement.setBoolean(8, quiz.getStatus());
-            statement.setDate(9, java.sql.Date.valueOf(quiz.getCreatedAt()));  // quiz.getCreatedAt() bir LocalDate olmalı.
-
-            int affectedRows = statement.executeUpdate();
-
-            if (affectedRows == 0) {
-                throw new SQLException("Creating quiz failed, no rows affected.");
-            }
-
-            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    quiz.setId(generatedKeys.getLong(1));
-                } else {
-                    throw new SQLException("Creating quiz failed, no ID obtained.");
-                }
-            }
-
-            System.out.println("Quiz added successfully.");
-        } catch (SQLException e) {
+            statement.setDate(9, java.sql.Date.valueOf(quiz.getCreatedAt()));
+            statement.setLong(10, quiz.getResult().getId());
+            statement.executeUpdate();
+        }catch (SQLException e){
             e.printStackTrace();
         }
-
         return quiz;
     }
-    public void updateQuiz(Quiz quiz) {
-        String query = "UPDATE quiz SET quiz_uuid=?, quiz_name=?, quiz_description=?, quiz_instructions=?, quiz_duration=?, quiz_attempts=?, quiz_difficulty=?, quiz_status=?, quiz_created_at=? WHERE quiz_id=?";
 
+    public Quiz update(Quiz quiz, int id) {
+        String query = "UPDATE quiz SET uuid=?, name=?, description=?, instructions=?, duration=?, attempts=?, difficulty=?, status=?, created_at=? result_id=? WHERE quiz_id=?";
         try (PreparedStatement statement = DBConnectorConfig.getConnection().prepareStatement(query)) {
             statement.setString(1, quiz.getUuid());
             statement.setString(2, quiz.getName());
@@ -59,91 +44,77 @@ public class QuizRepository {
             statement.setString(7, quiz.getDifficulty());
             statement.setBoolean(8, quiz.getStatus());
             statement.setDate(9, java.sql.Date.valueOf(quiz.getCreatedAt()));
-            statement.setLong(10, quiz.getId());
-
-            int affectedRows = statement.executeUpdate();
-
-            if (affectedRows == 0) {
-                throw new SQLException("Updating quiz failed, no rows affected.");
-            }
-
-            System.out.println("Quiz updated successfully.");
+            statement.setLong(10,quiz.getResult().getId());
+            statement.setInt(11, quiz.getId());
+            statement.executeUpdate();
         } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return getById(id);
+    }
+
+    public void delete(int id) {
+        String query = "DELETE FROM quiz WHERE id = ?";
+        try(PreparedStatement statement = DBConnectorConfig.getConnection().prepareStatement(query)) {
+            statement.setInt(1,id);
+            int rowsAffected = statement.executeUpdate();
+            if (rowsAffected>0){
+                System.out.println("Quiz with ID " + id + " deleted successfully!");
+            }else {
+                System.out.println("Quiz with ID " + id + " not found.");
+            }
+        }catch (SQLException e){
             e.printStackTrace();
         }
     }
 
-    public void deleteQuiz(long quizId) {
-        String query = "DELETE FROM quiz WHERE quiz_id=?";
-
-        try (PreparedStatement statement = DBConnectorConfig.getConnection().prepareStatement(query)) {
-            statement.setLong(1, quizId);
-
-            int affectedRows = statement.executeUpdate();
-
-            if (affectedRows == 0) {
-                throw new SQLException("Deleting quiz failed, no rows affected.");
-            }
-
-            System.out.println("Quiz deleted successfully.");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-    public List<Quiz> getAllQuizzes() {
-        List<Quiz> quizzes = new ArrayList<>();
-        String query = "SELECT * FROM quiz";
-
-        try (PreparedStatement statement = DBConnectorConfig.getConnection().prepareStatement(query)) {
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                Quiz quiz = new Quiz();
-                quiz.setId(resultSet.getLong("quiz_id"));
-                quiz.setUuid(resultSet.getString("quiz_uuid"));
-                quiz.setName(resultSet.getString("quiz_name"));
-                quiz.setDescription(resultSet.getString("quiz_description"));
-                quiz.setInstructions(resultSet.getString("quiz_instructions"));
-                quiz.setDuration(resultSet.getInt("quiz_duration"));
-                quiz.setAttempts(resultSet.getInt("quiz_attempts"));
-                quiz.setDifficulty(resultSet.getString("quiz_difficulty"));
-                quiz.setStatus(resultSet.getBoolean("quiz_status"));
-                quiz.setCreatedAt(resultSet.getDate("quiz_created_at").toLocalDate());
-
-                quizzes.add(quiz);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return quizzes;
-    }
-
-    public Quiz getQuizById(long id) {
+    public List<Quiz> getAll() {
         Quiz quiz = new Quiz();
-        String query = "SELECT * FROM quiz WHERE quiz_id=?";
+        List<Quiz> allQuiz = new ArrayList<>();
+        String query = "SELECT * FROM quiz";
         try (PreparedStatement statement = DBConnectorConfig.getConnection().prepareStatement(query)) {
-            statement.setLong(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    quiz.setId(resultSet.getLong("quiz_id"));
-                    quiz.setUuid(resultSet.getString("quiz_uuid"));
-                    quiz.setName(resultSet.getString("quiz_name"));
-                    quiz.setDescription(resultSet.getString("quiz_description"));
-                    quiz.setInstructions(resultSet.getString("quiz_instructions"));
-                    quiz.setDuration(resultSet.getInt("quiz_duration"));
-                    quiz.setAttempts(resultSet.getInt("quiz_attempts"));
-                    quiz.setDifficulty(resultSet.getString("quiz_difficulty"));
-                    quiz.setStatus(resultSet.getBoolean("quiz_status"));
-                    quiz.setCreatedAt(resultSet.getDate("quiz_created_at").toLocalDate());
+                    quiz.setId(resultSet.getInt("id"));
+                    quiz.setUuid(resultSet.getString("uuid"));
+                    quiz.setName(resultSet.getString("name"));
+                    quiz.setDescription(resultSet.getString("description"));
+                    quiz.setInstructions(resultSet.getString("instructions"));
+                    quiz.setDuration(resultSet.getInt("duration"));
+                    quiz.setAttempts(resultSet.getInt("attempt"));
+                    quiz.setDifficulty(resultSet.getString("difficulty"));
+                    quiz.setStatus(resultSet.getBoolean("status"));
+                    allQuiz.add(quiz);
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+        return allQuiz;
+    }
 
+    public Quiz getById(int id) {
+        Quiz quiz = new Quiz();
+        String query = "SELECT * FROM quiz WHERE id=?";
+        try(PreparedStatement statement = DBConnectorConfig.getConnection().prepareStatement(query)){
+            statement.setLong(1,id);
+            try(ResultSet resultSet = statement.executeQuery()){
+                while(resultSet.next()){
+                    quiz.setId(resultSet.getInt("id"));
+                    quiz.setUuid(resultSet.getString("uuid"));
+                    quiz.setName(resultSet.getString("name"));
+                    quiz.setDescription(resultSet.getString("description"));
+                    quiz.setInstructions(resultSet.getString("instructions"));
+                    quiz.setDuration(resultSet.getInt("duration"));
+                    quiz.setAttempts(resultSet.getInt("attempt"));
+                    quiz.setDifficulty(resultSet.getString("difficulty"));
+                    quiz.setStatus(resultSet.getBoolean("status"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return quiz;
     }
-
 
 }

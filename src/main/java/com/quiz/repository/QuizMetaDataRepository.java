@@ -48,7 +48,7 @@ public class QuizMetaDataRepository {
     }
 
     public QuizMetaData save(QuizMetaData quizMetaData){
-        String query = "INSERT INTO quiz_meta_data (option,correct,quiz_question_id) VALUES (?,?,?)";
+        String query = "INSERT INTO quiz_meta_data (option,correct,quizquestion_id) VALUES (?,?,?)";
         try(PreparedStatement statement = DBConnectorConfig.getConnection().prepareStatement(query)){
             statement.setString(1,quizMetaData.getOption());
             statement.setBoolean(2,quizMetaData.isCorrect());
@@ -61,7 +61,7 @@ public class QuizMetaDataRepository {
     }
 
     public QuizMetaData update(QuizMetaData quizMetaData,int id){
-        String query = "UPDATE quiz_meta_data SET option=? SET correct=? WHERE id=?";
+        String query = "UPDATE quiz_meta_data SET option=?, correct=? WHERE id=?";
         try(PreparedStatement statement = DBConnectorConfig.getConnection().prepareStatement(query)){
             statement.setString(1,quizMetaData.getOption());
             statement.setBoolean(2,quizMetaData.isCorrect());

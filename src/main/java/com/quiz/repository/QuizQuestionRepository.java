@@ -1,6 +1,8 @@
 package com.quiz.repository;
 
 import com.quiz.config.DBConnectorConfig;
+import com.quiz.model.Quiz;
+import com.quiz.model.QuizMetaData;
 import com.quiz.model.QuizQuestion;
 
 import java.sql.PreparedStatement;
@@ -45,15 +47,15 @@ public class QuizQuestionRepository {
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()){
-                Long id1 = resultSet.getLong("id");
+                long idFromDB = resultSet.getInt("id");
                 String uuid = resultSet.getString("uuid");
                 Long quizId = resultSet.getLong("quizId");
                 String questionText = resultSet.getString("question");
                 LocalDateTime createdAt = resultSet.getTimestamp("createdDateTime").toLocalDateTime();
 
                 updatedQuestion  = new QuizQuestion();
-                updatedQuestion .setId(id1);
-                updatedQuestion   .setUuid(uuid);
+                updatedQuestion.setId(idFromDB);
+                updatedQuestion.setUuid(uuid);
                 updatedQuestion.setQuizId(quizId);
                 updatedQuestion.setQuestion(questionText);
                 updatedQuestion.setCreatedDateTime(createdAt);
@@ -99,26 +101,52 @@ public class QuizQuestionRepository {
             statement.setInt(1,id);
             try(ResultSet resultSet = statement.executeQuery()){
                 if (resultSet.next()) {
-                    Long id1 = resultSet.getLong("id");
+                    long idFromDB = resultSet.getInt("id");
                     String uuid = resultSet.getString("uuid");
                     Long quizId = resultSet.getLong("quizId");
                     String questionText = resultSet.getString("question");
                     LocalDateTime createdDateTime = resultSet.getTimestamp("createdDateTime").toLocalDateTime();
 
                     quizQuestion = new QuizQuestion();
-                    quizQuestion.setId(id1);
+                    quizQuestion.setId(idFromDB);
                     quizQuestion.setUuid(uuid);
                     quizQuestion.setQuizId(quizId);
                     quizQuestion.setQuestion(questionText);
                     quizQuestion.setCreatedDateTime(createdDateTime);
+                    quizQuestion.setQuizMetaData(getAllMetaDataByQuestionID(id));
                 }else{
                     System.out.println("No question matching the specified ID found. ID ="+ id);
                 }
-                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return quizQuestion;
+    }
+
+    public List<QuizMetaData> getAllMetaDataByQuestionID(long id){
+        List<QuizMetaData> quizMetaDataList = new ArrayList<>();
+        String query = "SELECT * FROM quiz_meta_data WHERE quizquestion_id=?";
+        try(PreparedStatement statement = DBConnectorConfig.getConnection().prepareStatement(query)) {
+            statement.setLong(1,id);
+            try(ResultSet resultSet = statement.executeQuery()){
+                while (resultSet.next()){
+                    int metadata_id = resultSet.getInt("id");
+                    String option=resultSet.getString("option");
+                    boolean correct=resultSet.getBoolean("correct");
+
+                    QuizMetaData quizMetaData = new QuizMetaData();
+                    quizMetaData.setCorrect(correct);
+                    quizMetaData.setOption(option);
+                    quizMetaData.setId(metadata_id);
+
+                    quizMetaDataList.add(quizMetaData);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return quizMetaDataList;
     }
 
     public List<QuizQuestion> getAllQuizQuestion(){
@@ -129,7 +157,7 @@ public class QuizQuestionRepository {
                 .prepareStatement(query)) {
             try(ResultSet resultSet = statement.executeQuery()){
                 while (resultSet.next()){
-                    Long questionId = resultSet.getLong("id");
+                    long questionId = resultSet.getInt("id");
                     Long quizId=resultSet.getLong("quizId");
                     String uuid=resultSet.getString("uuid");
                     String question=resultSet.getString("question");

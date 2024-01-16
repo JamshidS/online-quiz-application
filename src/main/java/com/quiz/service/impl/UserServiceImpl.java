@@ -44,7 +44,6 @@ public class UserServiceImpl implements UserService {
 
     public String updateUser(int userID, User updatedUser){
         User user = userRepository.getById(userID);
-        List<User> users = userRepository.getAll();
         if(user!=null){
             if(!user.getUserName().equals(updatedUser.getUserName()) || !user.getEmail().equals(updatedUser.getEmail())){
                 isUserUnique(user);
@@ -56,7 +55,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    public void isUserUnique(User user){
+    public boolean isUserUnique(User user){
         List<User> users = userRepository.getAll();
         for(User testUsers : users){
             if(user.getUserName().equals(testUsers.getUserName())){
@@ -66,5 +65,6 @@ public class UserServiceImpl implements UserService {
                 throw new RuntimeException("This email is already in use!");
             }
         }
+        return true;
     }
 }

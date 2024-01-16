@@ -13,6 +13,9 @@ public class Result {
         this.point = point;
         this.quiz = quiz;
     }
+    public Result(){
+
+    }
 
     public Long getId() {
         return id;

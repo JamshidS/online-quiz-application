@@ -93,7 +93,7 @@ public class QuizRepository {
         return allQuiz;
     }
 
-    public Quiz getById(int id) {
+    public Quiz getById(long id) {
         Quiz quiz = new Quiz();
         String query = "SELECT * FROM quiz WHERE id=?";
         try(PreparedStatement statement = DBConnectorConfig.getConnection().prepareStatement(query)){

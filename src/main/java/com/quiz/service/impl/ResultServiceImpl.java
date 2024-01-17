@@ -17,8 +17,8 @@ public class ResultServiceImpl implements ResultService {
     @Override
     public String saveResult(Result result) {
         if (result == null) {
-            CustomException.throwNotFoundException("Result Not Found");
-            return "Result Not Found";
+            CustomException.throwNotFoundException("Result Not Found with this id" + result.getId());
+            return null;
     }else {
             Result resultforDatabase = new Result();
             resultforDatabase.setId(result.getId());
@@ -36,8 +36,8 @@ public class ResultServiceImpl implements ResultService {
     @Override
     public String deleteResult(long resultId) {
         if (resultRepository.getResultById(resultId) == null) {
-            CustomException.throwNotFoundException("Result Not Found");
-            return "Result Not Found";
+            CustomException.throwNotFoundException("Result Not Found with this id" + resultId + "to delete");
+            return null;
     }else {
             resultRepository.delete(resultId);
             return "Result has been Deleted successfully";
@@ -48,7 +48,7 @@ public class ResultServiceImpl implements ResultService {
     public String updateResult(Result result) {
         Result resultforDatabase = new Result();
         if (result == null) {
-            CustomException.throwNotFoundException("Result Not Found");
+            CustomException.throwNotFoundException("Result Not Found with this id" + result.getId() + "to update");
             return "Result Not Found";
     }else {
         resultforDatabase.setUserQuizUuid(result.getUserQuizUuid());
@@ -64,7 +64,7 @@ public class ResultServiceImpl implements ResultService {
     @Override
     public Result getResultById(long resultId) {
     if (resultRepository.getResultById(resultId) == null) {
-        CustomException.throwNotFoundException("Result Not Found");
+        CustomException.throwNotFoundException("Result Not Found with this id" + resultId + "to get");
         return null;
     }else {
         return resultRepository.getResultById(resultId);

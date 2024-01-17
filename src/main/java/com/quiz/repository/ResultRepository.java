@@ -49,7 +49,7 @@ public class ResultRepository {
                     result.setUserQuizUuid(resultSet.getString("user_quiz_uuid"));
                     result.setQuizUuid(resultSet.getString("quiz_uuid"));
                     result.setPoint(resultSet.getDouble("point"));
-                    result.setQuiz(quizRepository.getById(resultSet.getLong("quiz_id")));
+                    result.setQuiz(quizRepository.getById(resultSet.getInt("quiz_id")));
                 }
 
             }
@@ -90,7 +90,7 @@ public class ResultRepository {
                     result.setUserQuizUuid(resultSet.getString("user_quiz_uuid"));
                     result.setQuizUuid(resultSet.getString("quiz_uuid"));
                     result.setPoint(resultSet.getDouble("point"));
-                    result.setQuiz(quizRepository.getById(resultSet.getLong("quiz_id")));
+                    result.setQuiz(quizRepository.getById(resultSet.getInt("quiz_id")));
 
                     resultList.add(result);
                 }

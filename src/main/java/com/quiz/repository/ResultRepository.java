@@ -9,7 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ResultRepository {
-    public Result getByID(int id)
+    private final QuizRepository quizRepository;
+
+    public ResultRepository(QuizRepository quizRepository) {
+        this.quizRepository = quizRepository;
+    }
+    public Result getResultByID(int id)
     {
         Result result = new Result();
         String query = "SELECT * FROM result WHERE id=?";
@@ -32,7 +37,7 @@ public class ResultRepository {
         return result;
     }
 
-    public List<Result> getAll(){
+    public List<Result> getAllResults(){
         List<Result> results = new ArrayList<>();
         String query = "SELECT * FROM results";
         try(PreparedStatement statement = DBConnectorConfig.getConnection().prepareStatement(query)) {
@@ -56,9 +61,51 @@ public class ResultRepository {
         return results;
     }
 
-    // write save -> insert
-    // write delete -> delete
-    // write update -> set
-    // write getResultByUserId -> inner join method
+    public Result save(Result result) {
+        String query = "INSERT INTO result (user_quiz_uuid, quiz_uuid, point, quiz_id) VALUES (?,?,?,?)";
+        try (PreparedStatement statement = DBConnectorConfig.getConnection().prepareStatement(query)) {
+            statement.setString(1, result.getUserUuid());
+            statement.setString(2, result.getQuizUuid());
+            statement.setDouble(3, result.getPoint());
+            statement.setLong(4, result.getQuiz().getId());
 
+            statement.executeUpdate();
+
+            System.out.println("Result added successfully.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public void delete(long id) {
+        String query = "DELETE FROM result WHERE id=?";
+        try (PreparedStatement statement = DBConnectorConfig.getConnection().prepareStatement(query)) {
+            statement.setLong(1, id);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+    }
+
+    public Result update(Result result, long id) {
+        String query = "UPDATE result SET user_quiz_uuid=?, quiz_uuid=?, point=?, quiz_id=? WHERE id=?";
+
+        try (PreparedStatement statement = DBConnectorConfig.getConnection().prepareStatement(query)) {
+            statement.setString(1, result.getUserUuid());
+            statement.setString(2, result.getQuizUuid());
+            statement.setDouble(3, result.getPoint());
+            statement.setLong(4, result.getQuiz().getId());
+            statement.setLong(5, id);
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+        return getResultByID((int) id);
+    }
+    
+    // write getResultByUserId -> inner join method
 }

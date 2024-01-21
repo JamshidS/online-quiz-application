@@ -1,20 +1,31 @@
 package com.quiz.service.impl;
 
+import com.quiz.exceptions.CustomException;
 import com.quiz.model.Quiz;
+import com.quiz.model.Result;
 import com.quiz.model.User;
 import com.quiz.model.UserQuiz;
+import com.quiz.repository.QuizRepository;
+import com.quiz.repository.ResultRepository;
 import com.quiz.repository.UserQuizRepository;
 import com.quiz.repository.UserRepository;
 import com.quiz.service.UserQuizService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class UserQuizServiceImpl implements UserQuizService {
 
     private final UserQuizRepository userQuizRepository;
+    private final UserRepository userRepository;
+    private final QuizRepository quizRepository;
+    private final ResultRepository resultRepository;
 
-    public UserQuizServiceImpl(UserQuizRepository userQuizRepository) {
+    public UserQuizServiceImpl(UserQuizRepository userQuizRepository, UserRepository userRepository, QuizRepository quizRepository, ResultRepository resultRepository) {
         this.userQuizRepository = userQuizRepository;
+        this.userRepository = userRepository;
+        this.quizRepository = quizRepository;
+        this.resultRepository = resultRepository;
     }
 
     @Override
@@ -92,5 +103,64 @@ public class UserQuizServiceImpl implements UserQuizService {
     @Override
     public List<UserQuiz> getAllUserQuiz() {
         return userQuizRepository.getAllUserQuizs();
+    }
+
+    @Override
+    public String takeQuiz(long userId, int quizId) {
+        User user = userRepository.getUserById(userId);
+        Quiz quiz = quizRepository.getById(quizId);
+
+        UserQuiz userQuiz = new UserQuiz();
+
+        userQuiz.setUser(user);
+        userQuiz.setQuiz(quiz);
+        userQuiz.setStatus(true);
+        userQuiz.setAttempts(userQuiz.getAttempts() + 1);
+        userQuiz.setCreatedAt(LocalDate.now());
+        userQuiz.setName(quiz.getName());
+        userQuiz.setDescription(quiz.getDescription());
+        userQuiz.setInstructions(quiz.getInstructions());
+        userQuiz.setDuration(quiz.getDuration());
+        userQuiz.setDifficulty(quiz.getDifficulty());
+
+
+        userQuizRepository.save(userQuiz);
+
+
+        String result = evaluate(userQuiz);
+
+
+        return user.getUserName() + " has taken " + quiz.getName() + " quiz. Quiz Score: " + quiz.getResult().getPoint() + ". Result: " + result;
+    }
+
+
+    private String evaluate(UserQuiz userQuiz) {
+        if (userQuiz == null || userQuiz.getQuiz() == null || userQuiz.getQuiz().getResult() == null) {
+            CustomException.throwInvalidInputException( "Error: Invalid UserQuiz or Quiz Result.");
+        }
+
+        double quizPoint = userQuiz.getQuiz().getResult().getPoint();
+        double total = 0;
+        int numberOfResults = 0;
+
+        List<Result> quizResults = resultRepository.getAllResults();
+
+        for (Result result : quizResults) {
+            if (result.getQuiz().getId() == userQuiz.getQuiz().getId()) {
+                total += result.getPoint();
+                numberOfResults++;
+            }
+        }
+
+        double average =  total / numberOfResults;
+
+
+        if (quizPoint > average) {
+            return "Congratulations! You scored above the average.";
+        } else if (quizPoint == average) {
+            return "You scored exactly the average.";
+        } else {
+            return "You scored below the average. Keep practicing!";
+        }
     }
 }

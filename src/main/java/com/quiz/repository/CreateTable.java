@@ -25,10 +25,10 @@ public class CreateTable {
 
     public static void createUserQuiz() {
         try (Statement statement = DBConnectorConfig.getConnection().createStatement()) {
-            String query = "DROP SEQUENCE IF EXISTS userquiz_id_seq;\n" +
-                    "CREATE SEQUENCE userquiz_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 2147483647 START 1 CACHE 1;" +
-                    "CREATE TABLE IF NOT EXISTS \"userquiz\"(" +
-                    "id INTEGER  DEFAULT nextval('userquiz_id_seq') PRIMARY KEY," +
+            String query = "DROP SEQUENCE IF EXISTS user_quiz_id_seq;\n" +
+                    "CREATE SEQUENCE user_quiz_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 2147483647 START 1 CACHE 1;" +
+                    "CREATE TABLE IF NOT EXISTS user_quiz(" +
+                    "id INTEGER  DEFAULT nextval('user_quiz_id_seq') PRIMARY KEY," +
                     "name VARCHAR(255)," +
                     "uuid VARCHAR(255)," +
                     "description VARCHAR(255)," +
@@ -40,7 +40,7 @@ public class CreateTable {
                     "created_at Date," +
                     "user_id BIGINT NOT NULL," +
                     "quiz_id BIGINT NOT NULL," +
-                    "CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES \"user\"(id) NOT DEFERRABLE," +
+                    "CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES user(id) NOT DEFERRABLE," +
                     "CONSTRAINT fk_quiz FOREIGN KEY (quiz_id) REFERENCES quiz(quiz_id) NOT DEFERRABLE)";
             statement.executeUpdate(query);
             System.out.println("User Quiz table created successfully");

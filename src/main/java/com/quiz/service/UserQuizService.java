@@ -12,5 +12,5 @@ public interface UserQuizService {
     String updateUserQuiz(UserQuiz userQuiz);
     UserQuiz getUserQuizById(long userQuizId);
     List<UserQuiz> getAllUserQuiz();
-    String takeQuiz(long userId, int quizId);
+    String takeQuiz(int userId, int quizId);
 }

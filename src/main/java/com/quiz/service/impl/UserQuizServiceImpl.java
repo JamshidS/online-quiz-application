@@ -106,8 +106,8 @@ public class UserQuizServiceImpl implements UserQuizService {
     }
 
     @Override
-    public String takeQuiz(long userId, int quizId) {
-        User user = userRepository.getUserById(userId);
+    public String takeQuiz(int userId, int quizId) {
+        User user = userRepository.getById(userId);
         Quiz quiz = quizRepository.getById(quizId);
 
         UserQuiz userQuiz = new UserQuiz();

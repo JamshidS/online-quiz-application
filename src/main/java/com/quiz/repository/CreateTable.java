@@ -100,7 +100,6 @@ public class CreateTable {
                     "created_at DATE," +
                     "result_id integer NOT NULL,"+
                     "CONSTRAINT fk_result FOREIGN KEY(result_id) REFERENCES result(id) NOT DEFERRABLE)";
-
             statement.executeUpdate(query);
             System.out.println("Quiz table created successfully");
         }catch (SQLException e){

@@ -106,6 +106,29 @@ public class ResultRepository {
         }
         return getResultByID((int) id);
     }
-    
+
+    public Result getResultUserByID(int userUuid)
+    {
+        Result result = new Result();
+        String query = "SELECT * FROM result WHERE userUuid=?";
+        try(PreparedStatement statement = DBConnectorConfig.getConnection().prepareStatement(query))
+        {
+            statement.setInt(1,userUuid);
+            try(ResultSet resultSet = statement.executeQuery()){
+                if(resultSet.next()){
+                    result.setId(resultSet.getLong("id"));
+                    result.setPoint(resultSet.getDouble("point"));
+                    result.setQuizUuid(resultSet.getString("quiz_uuid"));
+                    result.setUserUuid(resultSet.getString("user_uuid"));
+                }else{
+                    System.out.println("No result found with this ID: "+userUuid);
+                }
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return result;
+    }
+
     // write getResultByUserId -> inner join method
 }

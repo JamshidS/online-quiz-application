@@ -14,8 +14,8 @@ public class UserRepository {
     public User save(User user) {
         String query = "INSERT INTO \"user\" (fullname,username,email,password,uuid) VALUES (?,?,?,?,?)";
         try(PreparedStatement statement = DBConnectorConfig.getConnection().prepareStatement(query)){
-            statement.setString(1, user.getFullname());
-            statement.setString(2, user.getUsername());
+            statement.setString(1, user.getFullName());
+            statement.setString(2, user.getUserName());
             statement.setString(3, user.getEmail());
             statement.setString(4, user.getPassword());
             statement.setString(5, user.getUuid());
@@ -29,8 +29,8 @@ public class UserRepository {
     public User update(User user, int id) {
         String query = "UPDATE \"user\" SET fullname=?, username=?, email=?, password=?, uuid=? WHERE id=?";
         try(PreparedStatement statement = DBConnectorConfig.getConnection().prepareStatement(query)){
-            statement.setString(1, user.getFullname());
-            statement.setString(2, user.getUsername());
+            statement.setString(1, user.getFullName());
+            statement.setString(2, user.getUserName());
             statement.setString(3, user.getEmail());
             statement.setString(4, user.getPassword());
             statement.setString(5, user.getUuid());
@@ -65,8 +65,8 @@ public class UserRepository {
             try(ResultSet resultSet = statement.executeQuery()){
                 while(resultSet.next()){
                     user.setId(resultSet.getInt("id"));
-                    user.setFullname(resultSet.getString("fullname"));
-                    user.setUsername(resultSet.getString("username"));
+                    user.setFullName(resultSet.getString("fullname"));
+                    user.setUserName(resultSet.getString("username"));
                     user.setEmail(resultSet.getString("email"));
                     user.setPassword(resultSet.getString("password"));
                     user.setUuid(resultSet.getString("uuid"));
@@ -86,8 +86,8 @@ public class UserRepository {
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     user.setId(resultSet.getInt("id"));
-                    user.setFullname(resultSet.getString("fullname"));
-                    user.setUsername(resultSet.getString("username"));
+                    user.setFullName(resultSet.getString("fullname"));
+                    user.setUserName(resultSet.getString("username"));
                     user.setEmail(resultSet.getString("email"));
                     user.setPassword(resultSet.getString("password"));
                     user.setUuid(resultSet.getString("uuid"));

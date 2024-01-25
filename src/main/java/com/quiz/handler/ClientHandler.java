@@ -30,7 +30,7 @@ public class ClientHandler implements Runnable {
                     clientOutput.println("DISCONNECTED");
                     break;
                 } else {
-                    clientOutput.println("Bilinmeyen mesaj");
+                    clientOutput.println("Geçersiz komut: " + request);
                 }
             }
 

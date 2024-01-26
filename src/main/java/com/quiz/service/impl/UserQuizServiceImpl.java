@@ -9,12 +9,15 @@ import com.quiz.service.UserQuizService;
 
 import java.util.List;
 
-public class UserQuizServiceImpl implements UserQuizService {
+public class UserQuizServiceImpl implements UserQuizService,Runnable {
 
     private final UserQuizRepository userQuizRepository;
 
     public UserQuizServiceImpl(UserQuizRepository userQuizRepository) {
         this.userQuizRepository = userQuizRepository;
+    }
+
+    public UserQuizServiceImpl() {
     }
 
     @Override
@@ -92,5 +95,13 @@ public class UserQuizServiceImpl implements UserQuizService {
     @Override
     public List<UserQuiz> getAllUserQuiz() {
         return userQuizRepository.getAllUserQuizs();
+    }
+
+    @Override
+    public void run() {
+        takeQuiz();
+    }
+
+    public void takeQuiz() {
     }
 }

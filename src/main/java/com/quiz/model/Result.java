@@ -5,7 +5,7 @@ public class Result {
     private String userUuid;
     private String quizUuid;
     private double point;
-    private Quiz quiz; //quiz was kept symbolically as string
+    private Quiz quiz;
 
     public Result(String userUuid, String quizUuid, double point, Quiz quiz) {
         this.userUuid = userUuid;

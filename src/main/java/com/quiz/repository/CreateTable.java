@@ -109,8 +109,22 @@ public class CreateTable {
     }
 
     public static void createResultTable(){
-        // create result table here
-        // you can take reference of other methods
+        try(Statement statement = DBConnectorConfig.getConnection().createStatement()){
+            String query =
+                    "DROP SEQUENCE IF EXISTS result_id_seq;\n" +
+                    "CREATE SEQUENCE result_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 2147483647 START 1 CACHE 1;"+
+                    "CREATE TABLE IF NOT EXISTS result(" +
+                    "id INTEGER DEFAULT nextval('result_id_seq') PRIMARY KEY," +
+                    "user_quiz_uuid VARCHAR(255),"+
+                    "quiz_uuid VARCHAR(255),"+
+                    "point DOUBLE PRECISION,"+
+                    "quiz_id BIGINT NOT NULL,"+
+                    "CONSTRAINT fk_quiz FOREIGN KEY (quiz_id) REFERENCES quiz(quiz_id) NOT DEFERRABLE);";
+            statement.executeUpdate(query);
+            System.out.println("Result table created successfully");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void createUserTable() {
@@ -130,5 +144,6 @@ public class CreateTable {
             e.printStackTrace();
         }
     }
+
 }
 

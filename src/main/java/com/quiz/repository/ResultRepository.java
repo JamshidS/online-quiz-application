@@ -130,5 +130,4 @@ public class ResultRepository {
         return result;
     }
 
-    // write getResultByUserId -> inner join method
 }

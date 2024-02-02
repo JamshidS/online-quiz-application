@@ -8,6 +8,6 @@ public interface ResultService {
     String saveResult(Result result);
     String deleteResult(long resultId);
     String updateResult(Result result);
-    String getResultUserByID(long resultID);
+    Result getResultUserByID(long resultID);
     List<Result> getAllResults();
 }

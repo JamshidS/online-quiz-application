@@ -107,13 +107,13 @@ public class ResultRepository {
         return getResultByID((int) id);
     }
 
-    public Result getResultUserByID(int userUuid)
+    public Result getResultUserByID(long userUuid)
     {
         Result result = new Result();
         String query = "SELECT * FROM result WHERE userUuid=?";
         try(PreparedStatement statement = DBConnectorConfig.getConnection().prepareStatement(query))
         {
-            statement.setInt(1,userUuid);
+            statement.setInt(1, (int) userUuid);
             try(ResultSet resultSet = statement.executeQuery()){
                 if(resultSet.next()){
                     result.setId(resultSet.getLong("id"));

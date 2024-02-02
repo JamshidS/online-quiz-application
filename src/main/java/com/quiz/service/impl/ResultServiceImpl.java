@@ -2,6 +2,7 @@ package com.quiz.service.impl;
 
 import com.quiz.exceptions.CustomException;
 import com.quiz.model.Result;
+import com.quiz.repository.ResultRepository;
 import com.quiz.service.ResultService;
 
 import java.util.List;
@@ -60,9 +61,9 @@ public class ResultServiceImpl implements ResultService {
     }
 
     @Override
-    public String getResultUserByID(long resultID) {
+    public Result getResultUserByID(long resultID) {
         if(resultRepository.getResultUserByID(resultID) == null){
-            CustomException.throwNotFoundException("Result Not Found with this id" + resultId + "to get");
+            CustomException.throwNotFoundException("Result Not Found with this id " + resultID + "to get");
             return null;
         }else{
             return resultRepository.getResultUserByID(resultID);

@@ -63,7 +63,7 @@ public class ResultServiceImpl implements ResultService {
     @Override
     public Result getResultUserByID(long resultID) {
         if(resultRepository.getResultUserByID(resultID) == null){
-            CustomException.throwNotFoundException("Result Not Found with this id" + getResultUserByID(resultID) + "to get");
+            CustomException.throwNotFoundException("Result Not Found with this id " + resultID + "to get");
             return null;
         }else{
             return resultRepository.getResultUserByID(resultID);

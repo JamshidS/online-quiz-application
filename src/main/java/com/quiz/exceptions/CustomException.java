@@ -17,5 +17,11 @@ public class CustomException extends RuntimeException {
         throw new CustomException(message);
     }
 
+    public static void throwFailedException(String message) {
+        throw new CustomException(message);
+    }
 
+    public static void throwAlreadyInUseException(String message) {
+        throw new CustomException(message);
+    }
 }

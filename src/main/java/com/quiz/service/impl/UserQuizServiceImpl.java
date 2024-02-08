@@ -14,7 +14,7 @@ import com.quiz.service.UserQuizService;
 import java.time.LocalDate;
 import java.util.List;
 
-public class UserQuizServiceImpl implements UserQuizService {
+public class UserQuizServiceImpl implements UserQuizService, Runnable{
 
     private final UserQuizRepository userQuizRepository;
     private final UserRepository userRepository;
@@ -166,4 +166,10 @@ public class UserQuizServiceImpl implements UserQuizService {
     }
 
 
+    @Override
+    public void run() {
+        int userId= 1;
+        int quizId = 1;
+        takeQuiz(userId,quizId);
+    }
 }
